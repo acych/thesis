@@ -1,0 +1,14 @@
+@import "variables.css";
+
+body{
+    font-family: 'Comfortaa', cursive;
+    color: var(--dark-red);
+}
+a,a:hover{
+    color: var(--dark-red);
+}
+
+.row{
+    margin-right: 0;
+    margin-left: 0;
+}

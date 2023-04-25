@@ -1,0 +1,25 @@
+@import "global.css";
+
+.footer{
+    background-color: var(--light-yellow);
+    padding: 25px 0;
+}
+.footer-title{
+    font-weight: bold;
+    font-size: 17px;
+}
+.footer-link{
+    display: block;
+}
+
+.footer-bottom{
+    margin-top: 20px;
+}
+
+.copyright{
+    font-size: 10px;
+}
+
+.footer-social img{
+    height: 15px;
+}

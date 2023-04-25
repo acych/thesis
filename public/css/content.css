@@ -1,0 +1,66 @@
+@import "global.css";
+
+/* breadcrumb UI */
+.bc-nav{
+    background-color: var(--light-yellow);
+}
+
+.breadcrumb{
+    background-color: transparent;
+    padding: 15px 0;
+    font-size: 16px;
+}
+
+.breadcrumb-item a{
+    color: var(--dark-red);
+}
+
+.breadcrumb-item+.breadcrumb-item::before{
+    color: var(--dark-red);
+}
+
+.breadcrumb>.active{
+    color: var(--light-red);
+}
+
+/* content title UI */
+.content-title{
+    text-align: center;
+    background-color: var(--dark-yellow);
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+/* choices buttons UI */
+.ease-buttons .ease-button-container{
+    text-align: center;
+}
+.ease-buttons{
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+.ease-button{
+    background-color: var(--dark-red);
+    text-align: center;
+    padding-top: 20px;
+    width: 300px;
+    height: 140px;
+    display: inline-block;
+    border-radius: 20px;
+    color: var(--dark-yellow);
+    font-family: 'Vast Shadow';
+    box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -webkit-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -moz-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+}
+.ease-button:hover{
+    color: var(--dark-yellow);
+    opacity: 0.8;
+    text-decoration: none;
+}
+.choices-image{
+    height: 60px;
+}
+.ease-text{
+    margin-top: 10px;
+}

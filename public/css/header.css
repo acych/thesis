@@ -1,0 +1,40 @@
+@import "global.css";
+
+.header{
+    margin-bottom: 60px;
+}
+
+/* logo UI */
+.header-logo{
+    text-align: center;
+    margin-top: 60px;
+}
+.logo-text{
+    font-family: 'Vast Shadow', cursive;
+    font-size: 20px;
+    width: 50%;
+    margin: 20px auto;
+}
+
+/* carousel UI */
+.carousel-indicators{
+    bottom: -50px;
+}
+
+#easeCarousel{
+    float: right;
+}
+
+.carousel-indicators .active{
+    background-color: var(--dark-red);
+    width: 15px;
+    height: 15px;
+    margin: 4px;
+}
+
+.carousel-indicators li{
+    border: 1px solid var(--dark-red);
+    width: 13px;
+    height: 13px;
+    margin: 5px;
+}

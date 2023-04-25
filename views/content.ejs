@@ -1,0 +1,28 @@
+<div class="content">                
+    <nav aria-label="breadcrumb" class="bc-nav">
+        <ol class="breadcrumb container">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
+    <div class="content-title"><%= variables.title %></div>
+    <div class="ease-buttons container">
+        <%if (variables.isLoggedIn==true){%>
+            <a href="/logout">Log Out</a>
+        <%}%>
+        <div class="row">
+            <div class="col-sm-6 ease-button-container">
+               <a class="ease-button" href=<%= variables.option1Next %>>
+                <img class="choices-image" src=<%= variables.image1 %> />
+                <div class="ease-text"><%= variables.option1 %></div>
+                </a> 
+            </div>
+            <div class="col-sm-6 ease-button-container">
+                <a class="ease-button" href=<%= variables.option2Next %>>
+                    <img class="choices-image" src=<%= variables.image2 %> />
+                    <div class="ease-text"><%= variables.option2 %></div>
+                </a> 
+            </div>
+        </div>
+    </div>
+
+</div>
