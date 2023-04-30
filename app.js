@@ -1,48 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const db = require("./dbOperations");
+const db = require("./db/dbOperations");
 
 const app = express();
 
 
-db.connect();
-db.createUser({ name: 'Foo',email:'test1234@test.com',password:'1234567890',address:'address1',tax_id:123456709, city:'city',country:'Country', postal_code:12345, phone:1234560890, tax_id:123956789 });
-// console.log(db.findUser({ name: 'Foo' }));
-// if(db.findUser({ name: 'Foo' })){
-// }
 
-// mongoose.connect('mongodb://localhost:27017/easeAsterDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// db.createUser({ name: 'Foo',email:'test1234@test.com',password:'1234567890',address:'address1',tax_id:123456709, city:'city',country:'Country', postal_code:12345, phone:1234560890, tax_id:123956789 });
 
-// const userSchema = new mongoose.Schema({
-//   _id: { type: String, required: true },
-//   name: String,
-//   email: String,
-//   password: String,
-//   address: String,
-//   city: String,
-//   postal_code: Number,
-//   country: String,
-//   phone: Number,
-// });
+// const user = await findUser('test1234@test.com', '1234567890');
+// console.log(user);
 
-// const User = mongoose.model('User', userSchema);
+// const user = await db.findUser('example@example.com', 'password123');
+// console.log(user);
+// db.findUser('test1234@test.com', '1234567890');
+// // db.findUser('aaaa','aaaa');
 
-// const user = new User({
-//   _id: '012345678',
-//   name: 'Name',
-//   email: 'test@email.com',
-//   password: 'pass',
-//   address: 'Address 3',
-//   city: 'Athens',
-//   postal_code: 12345,
-//   country: 'Greece',
-//   phone: 2101234569,
-// });
-
-// user.save()
-//   .then(() => console.log('User saved'))
-//   .catch((error) => console.log('Error saving user:', error));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
@@ -165,35 +139,36 @@ const checkUser = async (email, password, res) => {
     }
   }
 
-app.post('/login', function(req,res){
-    checkUser (req.body.email,req.body.password, res);
-    // console.log("Email is " + req.body.email + " and password is " + req.body.password);
-    // console.log("EEEEE" + db.loginUser(req.body.email,req.body.password))
-    // db.loginUser(req.body.email,req.body.password)
-    // if(loggedIn===true){
-    //     console.log("logged IN")
-    // }
-    // else if(loggedIn===false){
-    //     console.log("it is false")
-    // }
-    // else{
-    //     console.log("it is sth else" + loggedIn);
-    // }
-    //     const variables = {
-    //         title: 'SELECT',
-    //         option1: 'PROJECTS',
-    //         option1Next: '/projects',
-    //         image1: './img/choices/projects.png',
-    //         option2: 'PROFILE',
-    //         option2Next: '/profile',
-    //         image2: './img/choices/individual.png'
-    //     }
-    //     res.render('index',{variables:variables});
-    // }
-    // else{
-    //     res.render('login',{});
-    // }
-})
+  app.post('/login', async function(req, res) {
+    const { email, password } = req.body;
+    try {
+    //   await connect(); // connect to the database
+      await db.connect();
+      const user = await db.findUser(email, password); // call findUser to get the user
+      if (user) {
+        // user found, set session data or JWT and redirect to dashboard
+        req.session.user = user;
+        const variables = {
+            title: 'SELECT',
+            option1: 'PROJECTS',
+            option1Next: '/projects',
+            image1: './img/choices/projects.png',
+            option2: 'PROFILE',
+            option2Next: '/profile',
+            image2: './img/choices/individual.png'
+        }
+        res.render('index',{variables:variables});
+      } else {
+        // user not found, render error message
+        res.render('login', { error: 'Invalid email or password' });
+      }
+    } catch (err) {
+      // handle any errors that occur
+      console.error(err);
+      res.render('error', { error: 'An error occurred' });
+    } 
+  });
+  
 
 
 app.get('/register', (req,res)=>{
