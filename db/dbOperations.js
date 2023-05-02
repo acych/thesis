@@ -2,6 +2,58 @@ const mongoose = require('mongoose');
 
 const uri = "mongodb+srv://acychroni:Aspeq7f7hs!@easeaster.avkuitf.mongodb.net/?retryWrites=true&w=majority";
 
+const collectionPointSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String,
+  },
+  items: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Item'
+  }]
+});
+
+const distributionPointSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  items: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Item'
+  }]
+});
+
+
+const projectSchema = new mongoose.Schema({
+  name: String,
+  // Other project properties
+  collectionPoint: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CollectionPoint',
+    required: false
+  },
+  distributionPoint: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DistributionPoint',
+    required: false
+  }
+});
 
 // define a schema for the "users" collection
 const userSchema = new mongoose.Schema({
@@ -13,8 +65,24 @@ const userSchema = new mongoose.Schema({
   postal_code: Number,
   country: String,
   phone: Number,
-  tax_id: Number
+  tax_id: Number,
+  projects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project'
+  }]
 });
+
+const itemSchema = new mongoose.Schema({
+  name: String
+})
+
+const ItemModel = mongoose.model('Items',itemSchema);
+const CollectionPointModel = mongoose.model('CollectionPoint', collectionPointSchema);
+const DistributionPointModel = mongoose.model('DistributionPoint', distributionPointSchema);
+const ProjectModel = mongoose.model('Project', projectSchema);
+// const User = mongoose.model('User', userSchema);
+
+
 
 // create a model for the "users" collection
 const UserModel = mongoose.model('User', userSchema);
@@ -30,9 +98,7 @@ async function connect() {
 async function createUser(userData) {
   try {
     // connect to the MongoDB Atlas database
-    await connect();
-    console.log('I will create a user with data:', userData);
-    
+    await connect();    
     // create a new user with the provided data
     const user = new UserModel(userData);
     await user.save();
@@ -46,6 +112,58 @@ async function createUser(userData) {
     await mongoose.disconnect();
     console.log('Disconnected from MongoDB Atlas');
   }
+}
+
+async function createCollectionPoint(name,description,address,items){
+  let itemsArray = [];
+  for (item in items){
+    try{
+      let foundItem = await findItem(items[item]);
+      itemsArray.push(foundItem._id);
+    }catch(err){
+      console.log(err);
+    }
+  }
+  CPData = {
+    name: name,
+    description: description,
+    address: address,
+    items: itemsArray
+  }
+
+  try {
+    // connect to the MongoDB Atlas database
+    await connect();
+    const collectionPoint = new CollectionPointModel(CPData);
+    await collectionPoint.save();
+    }catch (err) {
+      console.error('Error creating collectionPoint:', err.message);
+      return null;
+    } finally {
+      // disconnect from the MongoDB Atlas database
+      await mongoose.disconnect();
+      console.log('Disconnected from MongoDB Atlas');
+    }
+}
+
+async function findItem(name){
+    let item;
+    try {
+      // connect to the database
+      await mongoose.connect(uri);
+      console.log('Connected to MongoDB Atlas');
+  
+      // find user with matching email and password
+      item = await ItemModel.findOne({ name });
+      console.log('Found item:', item);
+    } catch (err) {
+      console.error('Error finding user:', err.message);
+    } finally {
+      // disconnect from the database
+      await mongoose.disconnect();
+      console.log('Disconnected from MongoDB Atlas');
+    }
+    return item;
 }
 
 async function loginUser(email, password) {
@@ -126,4 +244,4 @@ async function registerUser(userData){
   } 
 }
 
-module.exports = { connect, createUser, loginUser, registerUser };
+module.exports = { connect, createUser, loginUser, registerUser, createCollectionPoint };

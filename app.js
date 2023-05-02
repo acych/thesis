@@ -5,17 +5,8 @@ const db = require("./db/dbOperations");
 
 const app = express();
 
-
-
-// db.createUser({ name: 'Foo',email:'test1234@test.com',password:'1234567890',address:'address1',tax_id:123456709, city:'city',country:'Country', postal_code:12345, phone:1234560890, tax_id:123956789 });
-
-// const user = await findUser('test1234@test.com', '1234567890');
-// console.log(user);
-
-// const user = await db.findUser('example@example.com', 'password123');
-// console.log(user);
-// db.findUser('test1234@test.com', '1234567890');
-// // db.findUser('aaaa','aaaa');
+// db.createCollectionPoint('name','description','location',['food','clothes'])
+// db.createUser({ name: 'Foo',email:'test1234@test.com',password:'1234567890',address:'address1',tax_id:123456709, city:'city',country:'Country', postal_code:12345, phone:1234560890, tax_id:123956789, projects:[] });
 
 
 app.use(bodyParser.urlencoded({extended:true}));
@@ -38,7 +29,8 @@ app.get('/', (req,res)=>{
         image1: './img/choices/individual.png',
         option2: 'ORGANIZATION',
         option2Next: '/organization',
-        image2: './img/choices/organization.png'
+        image2: './img/choices/organization.png',
+        user: req.session.user
     }
     res.render('index',{variables:variables})
 })
@@ -51,18 +43,26 @@ app.get('/individual', (req,res)=>{
         image1: './img/choices/find.png',
         option2: 'OFFER',
         option2Next: '/offer',
-        image2: './img/choices/offer.png'
+        image2: './img/choices/offer.png',
+        user: req.session.user
     }
     res.render('index',{variables:variables});
 })
 
 app.get('/organization',(req,res)=>{
-    res.redirect('/login');
+    if(req.session.user){
+        res.render('index',{variables:req.session.variables});
+    }
+    else{
+        res.redirect('/login');
+    }
 })
 
 app.get('/login', (req,res)=>{
     res.render('login',{});
 })
+
+
 
 app.post('/login', async function(req, res) {
 const { email, password } = req.body;
@@ -79,9 +79,11 @@ try {
         image1: './img/choices/projects.png',
         option2: 'PROFILE',
         option2Next: '/profile',
-        image2: './img/choices/individual.png'
+        image2: './img/choices/individual.png',
+        user: user
     }
-    res.render('index',{variables:variables});
+    req.session.variables=variables;
+    res.redirect('/organization');
     } else {
         // user not found, render error message
         res.render('login', { error: 'Invalid email or password' });
@@ -93,7 +95,29 @@ try {
 } 
 });
   
+app.get('/logout',(req,res)=>{
+    req.session.user = null,
+    res.redirect('/');
+})
 
+app.get('/projects',(req,res)=>{
+    console.log("Session data is: " + req.session.user.projects.length);
+    if(req.session.user.projects.length<=0){
+        res.render("project");
+    }
+    else{
+        const variables = {
+            title: 'SELECT',
+            option1: 'NEW PROJECTS',
+            option1Next: '/new-project',
+            image1: './img/choices/projects.png',
+            option2: 'ONGOING PROJECTS',
+            option2Next: '/ongoing-projects',
+            image2: './img/choices/individual.png',
+            user: user
+        }
+    }
+})
 
 app.get('/register', (req,res)=>{
     res.render('register',{});
@@ -111,7 +135,8 @@ app.post('/register', async function(req,res){
         postal_code: req.body.postal_code,
         country: req.body.country,
         phone: req.body.phone,
-        tax_id: req.body.taxID
+        tax_id: req.body.taxID,
+        projects: []
        } 
        try{
         await db.connect();
@@ -124,7 +149,8 @@ app.post('/register', async function(req,res){
             image1: './img/choices/projects.png',
             option2: 'PROFILE',
             option2Next: '/profile',
-            image2: './img/choices/individual.png'
+            image2: './img/choices/individual.png',
+            user: user
         }
         res.render('index',{variables:variables});
        }
