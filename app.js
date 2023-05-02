@@ -27,21 +27,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// var userID=null;
-// app.use((req, res, next) => {
-//     if (req.session.userId) {
-//       User.findById(req.session.userId, (err, user) => {
-//         if (err) {
-//           return next(err);
-//         }
-//         res.locals.user = user; // Set the user variable in res.locals
-//         next();
-//       });
-//     } else {
-//       res.locals.user = null; // Set the user variable to null if the user is not logged in
-//       next();
-//     }
-//   });
 
 app.set('view engine', 'ejs')
 
@@ -71,82 +56,66 @@ app.get('/individual', (req,res)=>{
     res.render('index',{variables:variables});
 })
 
-// app.get('/organization', (req,res)=>{
-//     const variables = {
-//         title: 'CHOOSE OPTION',
-//         option1: 'LOG IN',
-//         option1Next: '/login',
-//         image1: './img/choices/login.png',
-//         option2: 'REGISTER',
-//         option2Next: '/register',
-//         image2: './img/choices/register.png'
-//     }
-//     res.render('index',{variables:variables});
-// })
-
 app.get('/organization',(req,res)=>{
     res.redirect('/login');
 })
-
-
-// Define the login middleware
-// const loginMiddleware = async (req, res, next) => {
-//     const { email, password } = req.body;
-  
-//     try {
-//       const user = await User.findOne({ email });
-//       if (!user) {
-//         return res.status(401).json({ error: 'Invalid credentials' });
-//       }
-  
-//       const isPasswordValid = await user.comparePassword(password);
-//       if (!isPasswordValid) {
-//         return res.status(401).json({ error: 'Invalid credentials' });
-//       }
-  
-//       const token = jwt.sign({ userId: user._id }, 'mysecretkey');
-//       return res.status(200).json({ token });
-//     } catch (err) {
-//       next(err);
-//     }
-//   };
-
 
 app.get('/login', (req,res)=>{
     res.render('login',{});
 })
 
-const checkUser = async (email, password, res) => {
-    const result = await db.loginUser(email, password);
-    // do something else here after firstFunction completes
-    if(result===true){
-        const variables = {
-            title: 'SELECT',
-            option1: 'PROJECTS',
-            option1Next: '/projects',
-            image1: './img/choices/projects.png',
-            option2: 'PROFILE',
-            option2Next: '/profile',
-            image2: './img/choices/individual.png'
-        }
-        res.render('index',{variables:variables});
+app.post('/login', async function(req, res) {
+const { email, password } = req.body;
+try {
+    await db.connect();
+    const user = await db.loginUser(email, password); // call findUser to get the user
+    if (user) {
+    // user found, set session data or JWT and redirect to dashboard
+    req.session.user = user;
+    const variables = {
+        title: 'SELECT',
+        option1: 'PROJECTS',
+        option1Next: '/projects',
+        image1: './img/choices/projects.png',
+        option2: 'PROFILE',
+        option2Next: '/profile',
+        image2: './img/choices/individual.png'
     }
-    else if(result===false){
-        console.log("it is false")
+    res.render('index',{variables:variables});
+    } else {
+        // user not found, render error message
+        res.render('login', { error: 'Invalid email or password' });
+    }
+} catch (err) {
+    // handle any errors that occur
+    console.error(err);
+    res.render('error', { error: 'An error occurred' });
+} 
+});
+  
+
+
+app.get('/register', (req,res)=>{
+    res.render('register',{});
+})
+app.post('/register', async function(req,res){
+    if(req.body.password!==req.body.validPassword){
+        res.render('register', { error: "Passwords don't match" });
     }
     else{
-        console.log("it is sth else" + loggedIn);
-    }
-  }
-
-  app.post('/login', async function(req, res) {
-    const { email, password } = req.body;
-    try {
-    //   await connect(); // connect to the database
-      await db.connect();
-      const user = await db.findUser(email, password); // call findUser to get the user
-      if (user) {
-        // user found, set session data or JWT and redirect to dashboard
+       let userData = {
+        email: req.body.email,
+        password: req.body.password,
+        address: req.body.address,
+        city: req.body.city,
+        postal_code: req.body.postal_code,
+        country: req.body.country,
+        phone: req.body.phone,
+        tax_id: req.body.taxID
+       } 
+       try{
+        await db.connect();
+        const user = await db.registerUser(userData);
         req.session.user = user;
         const variables = {
             title: 'SELECT',
@@ -158,25 +127,17 @@ const checkUser = async (email, password, res) => {
             image2: './img/choices/individual.png'
         }
         res.render('index',{variables:variables});
-      } else {
-        // user not found, render error message
-        res.render('login', { error: 'Invalid email or password' });
-      }
-    } catch (err) {
-      // handle any errors that occur
-      console.error(err);
-      res.render('error', { error: 'An error occurred' });
+       }
+       catch (err) {
+        // handle any errors that occur
+        console.error(err);
+        res.render('error', { error: 'An error occurred' });
     } 
-  });
-  
+    }
+});
+    // console.log("Email is " + req.body.email + " and password is " + req.body.password + " taxID is "+ req.body.taxID + " password rewrite " + req.body.validPassword);
 
-
-app.get('/register', (req,res)=>{
-    res.render('register',{});
-})
-app.post('/register', function(req,res){
-    console.log("Email is " + req.body.email + " and password is " + req.body.password + " taxID is "+ req.body.taxID + " password rewrite " + req.body.validPassword);
-})
+// })
 
 app.listen(4000, () =>{
     console.log('Server started listening on port 4000');
