@@ -72,14 +72,33 @@ const userSchema = new mongoose.Schema({
   }]
 });
 
-const itemSchema = new mongoose.Schema({
-  name: String
-})
 
-const ItemModel = mongoose.model('Items',itemSchema);
+
+const itemSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  }
+});
+
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  items: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Item'
+  }]
+});
+
+const Item = mongoose.model('Item', itemSchema);
 const CollectionPointModel = mongoose.model('CollectionPoint', collectionPointSchema);
 const DistributionPointModel = mongoose.model('DistributionPoint', distributionPointSchema);
 const ProjectModel = mongoose.model('Project', projectSchema);
+const Category = mongoose.model('Category', categorySchema);
 // const User = mongoose.model('User', userSchema);
 
 
@@ -114,21 +133,69 @@ async function createUser(userData) {
   }
 }
 
-async function createCollectionPoint(name,description,address,items){
-  let itemsArray = [];
-  for (item in items){
-    try{
-      let foundItem = await findItem(items[item]);
-      itemsArray.push(foundItem._id);
-    }catch(err){
-      console.log(err);
-    }
+
+// Define a function to retrieve the categories and items
+async function getAllCategoriesAndItems() {
+  let allItems = [];
+  try {
+    await connect();    
+    const categories = await Category.find().populate('items').exec();
+    allItems = categories.map((category) => {
+      return {
+        name: category.name,
+        id: category._id,
+        items: category.items.map((item) => {
+          return { name: item.name, id: item._id };
+        })
+      };
+    });
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  } catch (err) {
+    console.error('Error finding categories:', err);
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+    throw new Error('Internal server error');
+  } finally {
+    // disconnect from the MongoDB Atlas database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
   }
+  return allItems;
+}
+
+// async function createProject(name, description, CName, cDescription, cAddress, cItems, c){
+
+// }
+
+async function createDistributionPoint(name,description,address,items){
+  DPData = {
+    name: name,
+    description: description,
+    address: address,
+    items: items
+  }
+  try{
+    await connect();
+    const distributionPoint = new DistributionPointModel(DPData);
+    await distributionPoint.save();
+    const distributionPointId = distributionPoint._id.toString();
+  }catch (err) {
+    console.error('Error creating distributionPoint:', err.message);
+    return null;
+  } finally {
+    // disconnect from the MongoDB Atlas database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
+}
+
+async function createCollectionPoint(name,description,address,items){
   CPData = {
     name: name,
     description: description,
     address: address,
-    items: itemsArray
+    items: items
   }
 
   try {
@@ -136,6 +203,7 @@ async function createCollectionPoint(name,description,address,items){
     await connect();
     const collectionPoint = new CollectionPointModel(CPData);
     await collectionPoint.save();
+    const collectionPointId = collectionPoint._id.toString();
     }catch (err) {
       console.error('Error creating collectionPoint:', err.message);
       return null;
@@ -146,25 +214,6 @@ async function createCollectionPoint(name,description,address,items){
     }
 }
 
-async function findItem(name){
-    let item;
-    try {
-      // connect to the database
-      await mongoose.connect(uri);
-      console.log('Connected to MongoDB Atlas');
-  
-      // find user with matching email and password
-      item = await ItemModel.findOne({ name });
-      console.log('Found item:', item);
-    } catch (err) {
-      console.error('Error finding user:', err.message);
-    } finally {
-      // disconnect from the database
-      await mongoose.disconnect();
-      console.log('Disconnected from MongoDB Atlas');
-    }
-    return item;
-}
 
 async function loginUser(email, password) {
   let user;
@@ -244,4 +293,4 @@ async function registerUser(userData){
   } 
 }
 
-module.exports = { connect, createUser, loginUser, registerUser, createCollectionPoint };
+module.exports = { createDistributionPoint, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser, createCollectionPoint };

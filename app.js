@@ -118,6 +118,40 @@ app.get('/projects',(req,res)=>{
         }
     }
 })
+// console.log(db.createItems());
+
+
+app.get('/new-project', async (req, res) => {
+    try {
+        const allItems = await db.getAllCategoriesAndItems();
+        res.render('newProject', { allItems:allItems });
+        // db.createCollectionPoint('name','description','location',['6455195930e0cae454a15ff3','6455195930e0cae454a15ff4'])
+    } catch (err) {
+        console.error('Error retrieving all items:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+
+
+app.post('/new-project', (req,res)=>{
+
+
+    var collectionItems = [];
+    var distributionItems = [];
+    if(req.body.collection){
+        collectionItems = req.body.collection.map(value => String(value));
+    }
+    if(req.body.distribution){
+        distributionItems = req.body.distribution.map(value => String(value));
+    }
+    
+   // db.createCollectionPoint(req.body.collectionName, req.body.collectionDescription,req.body.collectionLocation,collectionItems);
+    // db.createDistributionPoint(req.body.distributionionName, req.body.distirbutionDescription,req.body.distributiontionLocation,distributionItems)
+
+    // // console.log("and items are " + section1Values)
+    res.redirect('/')
+})
 
 app.get('/register', (req,res)=>{
     res.render('register',{});
