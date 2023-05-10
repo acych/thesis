@@ -101,40 +101,38 @@ app.get('/logout',(req,res)=>{
 })
 
 app.get('/projects',(req,res)=>{
-    console.log("Session data is: " + req.session.user.projects.length);
+    // let user = req.session.user;
     if(req.session.user.projects.length<=0){
         res.render("project");
     }
     else{
-        const variables = {
-            title: 'SELECT',
-            option1: 'NEW PROJECTS',
-            option1Next: '/new-project',
-            image1: './img/choices/projects.png',
-            option2: 'ONGOING PROJECTS',
-            option2Next: '/ongoing-projects',
-            image2: './img/choices/individual.png',
-            user: user
-        }
+        // const variables = {
+        //     title: 'SELECT',
+        //     option1: 'NEW PROJECT',
+        //     option1Next: '/new-project',
+        //     image1: './img/choices/projects.png',
+        //     option2: 'ONGOING PROJECTS',
+        //     option2Next: '/ongoing-projects',
+        //     image2: './img/choices/individual.png',
+        //     user: req.session.user
+        // }
+        db.getAllUserProjects(req.session.user);
+        // res.render("projects",)
     }
 })
-// console.log(db.createItems());
 
 
 app.get('/new-project', async (req, res) => {
     try {
         const allItems = await db.getAllCategoriesAndItems();
         res.render('newProject', { allItems:allItems });
-        // db.createCollectionPoint('name','description','location',['6455195930e0cae454a15ff3','6455195930e0cae454a15ff4'])
     } catch (err) {
         console.error('Error retrieving all items:', err);
         res.status(500).send('Internal server error');
     }
 });
 
-
-
-app.post('/new-project', (req,res)=>{
+app.post('/new-project', async (req,res)=>{
 
 
     var collectionItems = [];
@@ -145,12 +143,35 @@ app.post('/new-project', (req,res)=>{
     if(req.body.distribution){
         distributionItems = req.body.distribution.map(value => String(value));
     }
+
+    var collectionPoint = {
+        name: req.body.collectionName,
+        description: req.body.collectionDescription,
+        address: req.body.collectionLocation,
+        items: collectionItems
+    }
     
-   // db.createCollectionPoint(req.body.collectionName, req.body.collectionDescription,req.body.collectionLocation,collectionItems);
-    // db.createDistributionPoint(req.body.distributionionName, req.body.distirbutionDescription,req.body.distributiontionLocation,distributionItems)
+
+
+    var distributionPoint = {
+    name: req.body.distributionionName,
+    description: req.body.distirbutionDescription,
+    address: req.body.distributiontionLocation,
+    items: distributionItems
+    }
+
+    try {
+        await db.createProject(collectionPoint,distributionPoint,req.body.pName,req.session.user._id);
+        res.redirect('/');
+    }catch (err) {
+        console.error('Error creating project:', err);
+        res.status(500).send('Internal server error');
+    }
+
+
 
     // // console.log("and items are " + section1Values)
-    res.redirect('/')
+    // res.redirect('/')
 })
 
 app.get('/register', (req,res)=>{

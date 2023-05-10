@@ -73,7 +73,6 @@ const userSchema = new mongoose.Schema({
 });
 
 
-
 const itemSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -164,22 +163,14 @@ async function getAllCategoriesAndItems() {
   return allItems;
 }
 
-// async function createProject(name, description, CName, cDescription, cAddress, cItems, c){
 
-// }
-
-async function createDistributionPoint(name,description,address,items){
-  DPData = {
-    name: name,
-    description: description,
-    address: address,
-    items: items
-  }
+async function createDistributionPoint(DPData){
   try{
     await connect();
     const distributionPoint = new DistributionPointModel(DPData);
     await distributionPoint.save();
     const distributionPointId = distributionPoint._id.toString();
+    return distributionPointId;
   }catch (err) {
     console.error('Error creating distributionPoint:', err.message);
     return null;
@@ -190,20 +181,14 @@ async function createDistributionPoint(name,description,address,items){
   }
 }
 
-async function createCollectionPoint(name,description,address,items){
-  CPData = {
-    name: name,
-    description: description,
-    address: address,
-    items: items
-  }
-
+async function createCollectionPoint(CPData ){
   try {
     // connect to the MongoDB Atlas database
     await connect();
     const collectionPoint = new CollectionPointModel(CPData);
     await collectionPoint.save();
     const collectionPointId = collectionPoint._id.toString();
+    return collectionPointId;
     }catch (err) {
       console.error('Error creating collectionPoint:', err.message);
       return null;
@@ -233,6 +218,53 @@ async function loginUser(email, password) {
     console.log('Disconnected from MongoDB Atlas');
   }
   return user;
+}
+
+async function insertProjectToUser(projectId,userId){
+  try{
+    await connect();
+    UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $push: { projects: projectId } },
+      { new: true }
+    )
+      .then((updatedUser) => {
+        console.log(updatedUser);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }catch (err) {
+    console.error('Error adding project to user', err.message);
+  } finally {
+    // disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
+
+}
+
+async function createProject(CPData, DPData, name, userId){
+  try{
+    var cp = await createCollectionPoint(CPData);
+    var dp = await createDistributionPoint(DPData);
+    var projectData = {
+      name: name,
+      collectionPoint: cp,
+      distributionPoint: dp
+    }
+    await connect();
+    var project = new ProjectModel(projectData);
+    await project.save();
+    const projectId = project._id.toString();
+    await insertProjectToUser(projectId,userId);
+  }catch (err) {
+    console.error('Error creating project', err.message);
+  } finally {
+    // disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
 }
 
 
@@ -293,4 +325,4 @@ async function registerUser(userData){
   } 
 }
 
-module.exports = { createDistributionPoint, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser, createCollectionPoint };
+module.exports = {createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
