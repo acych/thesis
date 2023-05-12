@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> EaseAster | Log In</title>
+        <%- include("mainheader") -%>
+          
+
+    </head>
+    <body>
+        <%- include("header") -%>
+
+        <h1>PROJECTS</h1>
+        <% for (let project of projects) { %>
+            <%= project.name %>
+            <% if(project.collectionPoint){ %>
+                <%= project.collectionPoint.name %>
+                <%= project.collectionPoint.description %>
+                <%= project.collectionPoint.address %>
+                <div>Collected Items</div>
+
+                <ul>
+                    <% for (item of project.collectionPoint.items) { %>
+                        <li><%= item.name %></li>
+                    <% } %>
+                </ul>
+            <%} %>
+            <% if(project.distributionPoint){ %>
+                <%= project.distributionPoint.name %>
+                <%= project.distributionPoint.description %>
+                <%= project.distributionPoint.address %>
+                <div>Collected Items</div>
+
+                <ul>
+                    <% for (item of project.distributionPoint.items) { %>
+                        <li><%= item.name %></li>
+                    <% } %>
+                </ul>
+            <%} %>
+        <% } %>
+    </body>
+
+    <%- include("footer") -%>

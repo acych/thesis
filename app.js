@@ -100,7 +100,7 @@ app.get('/logout',(req,res)=>{
     res.redirect('/');
 })
 
-app.get('/projects',(req,res)=>{
+app.get('/projects',async (req,res)=>{
     // let user = req.session.user;
     if(req.session.user.projects.length<=0){
         res.render("project");
@@ -116,8 +116,20 @@ app.get('/projects',(req,res)=>{
         //     image2: './img/choices/individual.png',
         //     user: req.session.user
         // }
-        db.getAllUserProjects(req.session.user);
-        // res.render("projects",)
+        // console.log("the user to find is "+req.session.user._id)
+        // var projects;
+        // try{
+            // await db.connect();
+
+            var projects = await db.getAllUserProjects(req.session.user);
+            console.log(projects)
+            res.render('projects',{projects:projects});
+
+        // }catch (err) {
+        //     console.error('Error fetching project:', err);
+        //     res.status(500).send('Internal server error');
+        // // } finally{
+        // }
     }
 })
 
@@ -137,13 +149,18 @@ app.post('/new-project', async (req,res)=>{
 
     var collectionItems = [];
     var distributionItems = [];
-    if(req.body.collection){
-        collectionItems = req.body.collection.map(value => String(value));
-    }
-    if(req.body.distribution){
-        distributionItems = req.body.distribution.map(value => String(value));
-    }
-
+    if (req.body.collection) {
+        collectionItems = req.body.collection.map(value => {
+            const item = JSON.parse(value);
+            return { itemId: item.id, name: item.name };
+          });
+      }
+      if (req.body.distribution) {
+        distributionItems = req.body.distribution.map(value => {
+            const item = JSON.parse(value);
+            return { itemId: item.id, name: item.name };
+          });
+      }
     var collectionPoint = {
         name: req.body.collectionName,
         description: req.body.collectionDescription,
@@ -167,11 +184,6 @@ app.post('/new-project', async (req,res)=>{
         console.error('Error creating project:', err);
         res.status(500).send('Internal server error');
     }
-
-
-
-    // // console.log("and items are " + section1Values)
-    // res.redirect('/')
 })
 
 app.get('/register', (req,res)=>{
@@ -216,6 +228,11 @@ app.post('/register', async function(req,res){
     } 
     }
 });
+
+app.get('/find', (req,res)=>{
+    db.getDistributionPoints();
+    // res.render('register',{});
+})
     // console.log("Email is " + req.body.email + " and password is " + req.body.password + " taxID is "+ req.body.taxID + " password rewrite " + req.body.validPassword);
 
 // })

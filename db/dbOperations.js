@@ -15,8 +15,15 @@ const collectionPointSchema = new mongoose.Schema({
     type: String,
   },
   items: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item'
+    itemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Item',
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
   }]
 });
 
@@ -34,8 +41,15 @@ const distributionPointSchema = new mongoose.Schema({
     required: true
   },
   items: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Item'
+    itemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Item',
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
   }]
 });
 
@@ -52,7 +66,7 @@ const projectSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'DistributionPoint',
     required: false
-  }
+  },
 });
 
 // define a schema for the "users" collection
@@ -212,6 +226,7 @@ async function loginUser(email, password) {
     console.log('Found user:', user);
   } catch (err) {
     console.error('Error finding user:', err.message);
+    return null;
   } finally {
     // disconnect from the database
     await mongoose.disconnect();
@@ -222,8 +237,8 @@ async function loginUser(email, password) {
 
 async function insertProjectToUser(projectId,userId){
   try{
-    await connect();
-    UserModel.findOneAndUpdate(
+    await mongoose.connect(uri);
+    await UserModel.findOneAndUpdate(
       { _id: userId },
       { $push: { projects: projectId } },
       { new: true }
@@ -325,4 +340,52 @@ async function registerUser(userData){
   } 
 }
 
-module.exports = {createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+async function getAllUserProjects(userId) {
+  try {
+    // connect to the database
+    await mongoose.connect(uri);
+    console.log('Connected to MongoDB Atlas');
+
+    // find user by id
+    const user = await UserModel.findById(userId);
+    projects = user.projects;
+    var projectArray = [];
+    for(project in projects){
+      // let id = mongoose.Types.projects[project].toString();
+
+      // console.log(projects[project]);
+      const foundProject = await ProjectModel.findById(projects[project]);
+      
+      if (!foundProject) {
+        console.log(`Project not found`);
+      } else {
+        console.log(`Found project: ${foundProject}`);
+        var pName = foundProject.name;
+        var cPoint = null;
+        var dPoint = null;
+        if (foundProject.collectionPoint){
+          cPoint = await CollectionPointModel.findById(foundProject.collectionPoint);
+        }
+        if (foundProject.distributionPoint){
+          dPoint = await DistributionPointModel.findById(foundProject.distributionPoint);
+        }
+        var fProject = {
+          name : pName,
+          collectionPoint : cPoint,
+          distributionPoint : dPoint
+        }
+        projectArray.push(fProject);
+      }
+    }
+    return projectArray;
+  } catch (err) {
+    console.error('Error finding user:', err.message);
+  } finally {
+    // disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
+}
+
+
+module.exports = {getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

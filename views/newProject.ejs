@@ -28,16 +28,16 @@
                                 <div class="accordion-item">
                                   <button data-bs-toggle="collapse" data-bs-target="#i-<%= category.id %>" aria-controls="collapse-manufacturers" aria-expanded="false" class="accordion-button collapsed" type="button">Category: <%= category.name %></button>
                                   <div id="i-<%= category.id %>" class="accordion-collapse collapse collapsed">
-                                      <% for (let item of category.items) { %>
+                                    <% for (let item of category.items) { %>
 
-                                        <div class="form-check">
-                                          <input class="form-check-input checkbox-item" type="checkbox" name="collection[]" value="<%= item.id %>" id="i-<%= item.id %>">
-                                            <label class="form-check-label" for="i-<%= item.id %>">
-                                                <%= item.name %>
-                                            </label>
-                                          </div>
+                                      <div class="form-check">
+                                        <input class="form-check-input checkbox-item" type="checkbox" name="collection[]" value='{"id": "<%= item.id %>", "name": "<%= item.name %>"}' id="i-<%= item.id %>">
+                                        <label class="form-check-label" for="i-<%= item.id %>">
+                                          <%= item.name %>
+                                        </label>
+                                      </div>
 
-                                      <% } %>
+                                    <% } %>
                                   </div>
                                 </div>
                               </div>
@@ -66,11 +66,11 @@
                                       <% for (let item of category.items) { %>
 
                                         <div class="form-check">
-                                          <input class="form-check-input checkbox-item" type="checkbox" name="distribution[]" value="<%= item.id %>" id="i-<%= item.id %>">
-                                            <label class="form-check-label" for="i-<%= item.id %>">
-                                                <%= item.name %>
-                                            </label>
-                                          </div>
+                                          <input class="form-check-input checkbox-item" type="checkbox" name="distribution[]" value='{"id": "<%= item.id %>", "name": "<%= item.name %>"}' id="i-<%= item.id %>">
+                                          <label class="form-check-label" for="i-<%= item.id %>">
+                                            <%= item.name %>
+                                          </label>
+                                        </div>
 
                                       <% } %>
                                   </div>
