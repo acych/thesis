@@ -259,6 +259,41 @@ async function insertProjectToUser(projectId,userId){
 
 }
 
+async function getDistributionPoints() {
+  await mongoose.connect(uri);
+
+  // Find all users and populate their projects
+  const users = await UserModel.find().populate({
+    path: 'projects',
+    populate: {
+      path: 'distributionPoint',
+      model: 'DistributionPoint'
+    }
+  });
+
+  // Create an array of objects containing users with distribution points and their DPoints
+  const usersWithDistributionPoints = [];
+
+  users.forEach(user => {
+    const distributionPoints = user.projects.reduce((acc, project) => {
+      if (project.distributionPoint) {
+        acc.push(project.distributionPoint);
+      }
+      return acc;
+    }, []);
+
+    if (distributionPoints.length > 0) {
+      usersWithDistributionPoints.push({
+        user: user.toObject(),
+        distributionPoints
+      });
+    }
+  });
+console.log(usersWithDistributionPoints);
+  return usersWithDistributionPoints;
+}
+
+
 async function createProject(CPData, DPData, name, userId){
   try{
     var cp = await createCollectionPoint(CPData);
@@ -388,4 +423,4 @@ async function getAllUserProjects(userId) {
 }
 
 
-module.exports = {getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+module.exports = {getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

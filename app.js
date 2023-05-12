@@ -229,9 +229,9 @@ app.post('/register', async function(req,res){
     }
 });
 
-app.get('/find', (req,res)=>{
-    db.getDistributionPoints();
-    // res.render('register',{});
+app.get('/find', async function(req,res){
+    const UDPoints = await db.getDistributionPoints();
+    res.render('points',{title:'find',points:UDPoints});
 })
     // console.log("Email is " + req.body.email + " and password is " + req.body.password + " taxID is "+ req.body.taxID + " password rewrite " + req.body.validPassword);
 

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> EaseAster | Log In</title>
+        <%- include("mainheader") -%>
+          
+
+    </head>
+    <body>
+        <%- include("header") -%>
+
+        <h1><%= title %></h1>
+        <% for (let point of points) { %>
+            <%= point.user.email %>
+            <% for (let pointInfo of point.distributionPoints) { %>
+                <%= pointInfo.name %>
+                <% } %>
+
+            <% } %>
+<%- include("footer") -%>
