@@ -1,50 +1,21 @@
 @import "global.css";
 
-/* breadcrumb UI */
-.bc-nav{
-    background-color: var(--light-yellow);
-}
 
-.breadcrumb{
-    background-color: transparent;
-    padding: 15px 0;
-    font-size: 16px;
-}
-
-.breadcrumb-item a{
-    color: var(--dark-red);
-}
-
-.breadcrumb-item+.breadcrumb-item::before{
-    color: var(--dark-red);
-}
-
-.breadcrumb>.active{
-    color: var(--light-red);
-}
-
-/* content title UI */
-.content-title{
-    text-align: center;
-    background-color: var(--dark-yellow);
-    font-size: 20px;
-    padding: 10px 0;
-}
 
 /* choices buttons UI */
 .ease-buttons .ease-button-container{
     text-align: center;
 }
 .ease-buttons{
-    margin-top: 70px;
-    margin-bottom: 70px;
+    margin-top: 90px;
+    margin-bottom: 200px;
 }
 .ease-button{
     background-color: var(--dark-red);
     text-align: center;
-    padding-top: 20px;
+    padding-top: 30px;
     width: 300px;
-    height: 140px;
+    height: 160px;
     display: inline-block;
     border-radius: 20px;
     color: var(--dark-yellow);

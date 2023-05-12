@@ -12,3 +12,34 @@ a,a:hover{
     margin-right: 0;
     margin-left: 0;
 }
+
+/* breadcrumb UI */
+.bc-nav{
+    background-color: var(--light-yellow);
+}
+
+.breadcrumb{
+    background-color: transparent;
+    padding: 5px 0;
+    font-size: 16px;
+}
+
+.breadcrumb-item a{
+    color: var(--dark-red);
+}
+
+.breadcrumb-item+.breadcrumb-item::before{
+    color: var(--dark-red);
+}
+
+.breadcrumb>.active{
+    color: var(--light-red);
+}
+
+/* content title UI */
+.content-title{
+    text-align: center;
+    background-color: var(--dark-yellow);
+    font-size: 20px;
+    padding: 10px 0;
+}

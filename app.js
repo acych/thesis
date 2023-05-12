@@ -23,7 +23,7 @@ app.set('view engine', 'ejs')
 
 app.get('/', (req,res)=>{
     const variables = {
-        title: 'I AM',
+        title: 'CONTINUE AS',
         option1: 'INDIVIDUAL',
         option1Next: '/individual',
         image1: './img/choices/individual.png',
@@ -37,7 +37,7 @@ app.get('/', (req,res)=>{
 
 app.get('/individual', (req,res)=>{
     const variables = {
-        title: 'I WANT',
+        title: 'I WANT TO',
         option1: 'FIND',
         option1Next: '/find',
         image1: './img/choices/find.png',

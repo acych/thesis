@@ -3,16 +3,25 @@
     <head>
         <title> EaseAster | Log In</title>
         <%- include("mainheader") -%>
+        <link rel="stylesheet" href="./css/forms.css">
+
     </head>
     <body>
         <%- include("header") -%>
-
-        <h1>LOG IN</h1>
-        <form action="/login" method="post">
-            <input name="email" type="email" placeholder="Email"/>
-            <input name="password" type="password" placeholder="Password">
-            <a>Forgot password?</a>
-            <a href="/register">REGISTER</a>
-            <button type="submit">LOGIN</button>
-        </form>
+        <nav aria-label="breadcrumb" class="bc-nav">
+            <ol class="breadcrumb container">
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+        </nav>
+        <div class="content-title">LOG IN</div>
+        <div class="form-container">
+            <form action="/login" method="post">
+                <input name="email" type="email" placeholder="Email"/>
+                <input name="password" type="password" placeholder="Password">
+                <div><a>Forgot password?</a></div>
+                <a class="cancel-button" href="/register">REGISTER</a>
+                <button class="submit-button" type="submit">LOGIN</button>
+            </form>
+        </div>
         <%- include("footer") -%>

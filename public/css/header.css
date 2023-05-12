@@ -9,6 +9,9 @@
     text-align: center;
     margin-top: 60px;
 }
+.header-logo:hover{
+    text-decoration: none;
+}
 .logo-text{
     font-family: 'Vast Shadow', cursive;
     font-size: 20px;
@@ -19,10 +22,18 @@
 /* carousel UI */
 .carousel-indicators{
     bottom: -50px;
+    /* border: 1px solid var(--dark-red); */
 }
+.carousel-indicators [data-bs-target] {
+    border: 1px solid var(--dark-red);
+    width: 13px;
+    height: 13px;
+    margin: 5px;
 
+}
 #easeCarousel{
-    float: right;
+    text-align: right;
+    width: 100%;
 }
 
 .carousel-indicators .active{

@@ -1,0 +1,41 @@
+@import "variabled.css";
+
+input{
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.form-container{
+    margin-top: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 200px;
+}
+
+.cancel-button{
+    color: var(--dark-red);
+    background-color: var(--dark-yellow);
+    font-family: 'Vast Shadow';
+    padding: 7px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    margin-right: 18px;
+}
+
+.submit-button{
+    color: var(--dark-yellow);
+    background-color: var(--dark-red);
+    font-family: 'Vast Shadow';
+    padding: 7px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+}
+
+
+.cancel-button:hover{
+    text-decoration: none;
+    opacity: 0.8;
+}
