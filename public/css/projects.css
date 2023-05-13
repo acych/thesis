@@ -1,0 +1,63 @@
+@import "variabled.css";
+
+.projects-container{
+    text-align: center;
+    margin: 110px auto;
+}
+
+.add-new-project{
+    box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -webkit-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -moz-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    background-color: var(--light-red);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+    height: 120px;
+}
+
+.add-new-project:hover{
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-text-stroke: 1px var(--dark-red); /* for Safari */
+    text-stroke: 1px var(--dark-red);
+    opacity: 0.9;
+}
+.add-new-project-image{
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.project{
+    box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -webkit-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -moz-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    background-color: var(--dark-red);
+    border-radius: 10px;
+    color: black;
+    margin-bottom: 50px;
+    text-align: left;
+    padding: 30px 60px;
+}
+
+.project-title{
+    margin-bottom: 40px;    
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Vast Shadow';
+    padding: 5px;
+    border-radius: 20px;
+    background-color: var(--light-red);
+    color: var(--dark-red);
+}
+
+.point-naame{
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+    -webkit-text-stroke: 1px black; /* for Safari */
+    text-stroke: 1px black;
+}

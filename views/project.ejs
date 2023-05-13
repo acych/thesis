@@ -3,10 +3,20 @@
     <head>
         <title> EaseAster | Log In</title>
         <%- include("mainheader") -%>
+        <link rel="stylesheet" href="./css/projects.css">
     </head>
     <body>
         <%- include("header") -%>
-
-        <h1>LOG IN</h1>
-        <a href="/new-project">ADD NEW PROJECT</a>
+        <nav aria-label="breadcrumb" class="bc-nav">
+            <ol class="breadcrumb container">
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Projects</li>
+            </ol>
+        </nav>
+        <div class="content-title">RROJECTS</div>
+        <div class="projects-container container">
+            <a class="add-new-project" href="/new-project">
+                <img class="add-new-project-image" src='./img/add-new.png' />
+                <div>NEW PROJECT</div></a>
+        </div>
         <%- include("footer") -%>

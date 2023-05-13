@@ -51,7 +51,8 @@ app.get('/individual', (req,res)=>{
 
 app.get('/organization',(req,res)=>{
     if(req.session.user){
-        res.render('index',{variables:req.session.variables});
+        res.redirect('/projects')
+        // res.render('index',{variables:req.session.variables});
     }
     else{
         res.redirect('/login');
@@ -72,17 +73,6 @@ try {
     if (user) {
     // user found, set session data or JWT and redirect to dashboard
     req.session.user = user;
-    const variables = {
-        title: 'SELECT',
-        option1: 'PROJECTS',
-        option1Next: '/projects',
-        image1: './img/choices/projects.png',
-        option2: 'PROFILE',
-        option2Next: '/profile',
-        image2: './img/choices/individual.png',
-        user: user
-    }
-    req.session.variables=variables;
     res.redirect('/organization');
     } else {
         // user not found, render error message
@@ -106,30 +96,10 @@ app.get('/projects',async (req,res)=>{
         res.render("project");
     }
     else{
-        // const variables = {
-        //     title: 'SELECT',
-        //     option1: 'NEW PROJECT',
-        //     option1Next: '/new-project',
-        //     image1: './img/choices/projects.png',
-        //     option2: 'ONGOING PROJECTS',
-        //     option2Next: '/ongoing-projects',
-        //     image2: './img/choices/individual.png',
-        //     user: req.session.user
-        // }
-        // console.log("the user to find is "+req.session.user._id)
-        // var projects;
-        // try{
-            // await db.connect();
 
             var projects = await db.getAllUserProjects(req.session.user);
             console.log(projects)
             res.render('projects',{projects:projects});
-
-        // }catch (err) {
-        //     console.error('Error fetching project:', err);
-        //     res.status(500).send('Internal server error');
-        // // } finally{
-        // }
     }
 })
 
@@ -145,8 +115,6 @@ app.get('/new-project', async (req, res) => {
 });
 
 app.post('/new-project', async (req,res)=>{
-
-
     var collectionItems = [];
     var distributionItems = [];
     if (req.body.collection) {
@@ -167,8 +135,6 @@ app.post('/new-project', async (req,res)=>{
         address: req.body.collectionLocation,
         items: collectionItems
     }
-    
-
 
     var distributionPoint = {
     name: req.body.distributionionName,
@@ -179,7 +145,7 @@ app.post('/new-project', async (req,res)=>{
 
     try {
         await db.createProject(collectionPoint,distributionPoint,req.body.pName,req.session.user._id);
-        res.redirect('/');
+        res.redirect('/projects');
     }catch (err) {
         console.error('Error creating project:', err);
         res.status(500).send('Internal server error');
@@ -209,17 +175,7 @@ app.post('/register', async function(req,res){
         await db.connect();
         const user = await db.registerUser(userData);
         req.session.user = user;
-        const variables = {
-            title: 'SELECT',
-            option1: 'PROJECTS',
-            option1Next: '/projects',
-            image1: './img/choices/projects.png',
-            option2: 'PROFILE',
-            option2Next: '/profile',
-            image2: './img/choices/individual.png',
-            user: user
-        }
-        res.render('index',{variables:variables});
+        res.redirect('/projects');
        }
        catch (err) {
         // handle any errors that occur

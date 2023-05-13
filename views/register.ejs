@@ -3,22 +3,32 @@
     <head>
         <title>EaseAster | Register</title>
         <%- include("mainheader") -%>
+        <link rel="stylesheet" href="./css/forms.css">
     </head>
     <body>
         <%- include("header") -%>
-        <h1>REGISTER</h1>
-        <form action="/register" method="post">
-            <input type="text" name="name" placeholder="Organization's name" />
-            <input type="text" name="taxID" placeholder="Tax-ID"/>
-            <input type="text" name="address" placeholder="Address" />
-            <input type="text" name="city" placeholder="City"/>
-            <input type="text" name="postalCode" placeholder="Postal code">
-            <input type="text" name="country" placeholder="Country" />
-            <input type="tel" name="phone" placeholder="Phone" />
-            <input type="email" name="email" placeholder="Email" />
-            <input type="password" name="password" placeholder="Password" />
-            <input type="password" name="validPassword" placeholder="Retype password" />
-            <a href="/organization">CANCEL</a>
-            <button type="submit">REGISTER</button>
-        </form>
+        <nav aria-label="breadcrumb" class="bc-nav">
+            <ol class="breadcrumb container">
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/login">Login</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Register</li>
+            </ol>
+        </nav>
+        <div class="content-title">REGISTER</div>
+        <div class="form-container">
+            <form action="/register" method="post">
+                <input type="text" name="name" placeholder="Organization's name" />
+                <input type="text" name="taxID" placeholder="Tax-ID"/>
+                <input type="text" name="address" placeholder="Address" />
+                <input type="text" name="city" placeholder="City"/>
+                <input type="text" name="postalCode" placeholder="Postal code">
+                <input type="text" name="country" placeholder="Country" />
+                <input type="tel" name="phone" placeholder="Phone" />
+                <input type="email" name="email" placeholder="Email" />
+                <input type="password" name="password" placeholder="Password" />
+                <input type="password" name="validPassword" placeholder="Retype password" />
+                <a class="cancel-button" href="/organization">CANCEL</a>
+                <button class="submit-button" type="submit">REGISTER</button>
+            </form>
+        </div>
         <%- include("footer") -%>

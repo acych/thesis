@@ -1,10 +1,27 @@
 @import "variabled.css";
 
-input{
+textarea,input{
     display: block;
-    margin-bottom: 10px;
     width: 100%;
+    padding: 5px 20px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-size: 16px;
+    margin-bottom: 20px;
 }
+textarea:valid,input:valid{
+    border: 1px solid var(--dark-red);
+}
+
+textarea:focus,input:focus{
+    outline: none;
+    border: 2px solid var(--dark-red);
+}
+
+textarea {
+    resize: none;
+    height: 130px;
+  }
 
 .form-container{
     margin-top: 90px;
@@ -22,20 +39,103 @@ input{
     font-size: 18px;
     border-radius: 10px;
     margin-right: 18px;
+    margin-top: 30px;
 }
 
 .submit-button{
+    margin-top: 30px;
     color: var(--dark-yellow);
     background-color: var(--dark-red);
     font-family: 'Vast Shadow';
-    padding: 7px 25px;
+    padding: 5px 25px;
     font-size: 18px;
     border-radius: 10px;
     border: none;
 }
 
 
-.cancel-button:hover{
+.submit-button:hover,.cancel-button:hover{
     text-decoration: none;
     opacity: 0.8;
 }
+.add{
+    font-size: 25px;
+    padding-bottom: 2px;
+    margin-right: 10px;
+}
+.accordion-flush .accordion-item .accordion-button, .accordion-flush .accordion-item .accordion-button.collapsed{
+    font-size: 16px;
+    color: var(--dark-red);
+    padding: 8px 20px 5px 20px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: none;
+}
+.accordion-button::after{
+    background-image: var(--chevron-down);
+    height: 17px;  
+}
+.accordion-button:not(.collapsed)::after{
+    background-image: var(--chevron-down);
+    height: 17px;
+}
+
+.add-point::after{
+    background-image: var(--chevron-down);
+    height: 23px;
+    float: right;
+    width: 23px;
+    background-size: 20px;
+}
+
+.accordion-header{
+    margin-top: 0px;
+}
+
+.accordion-flush .accordion-item{
+    border-radius: 20px;
+}
+
+.accordion.accordion-flush{
+    border: 1px solid var(--dark-red);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.new-project{
+    width: 50%;
+    margin: 110px auto;
+}
+
+.new-project form{
+    width: 100%;
+}
+
+.accordion.accordion-flush.accordion-category{
+    border-radius: 20px;
+}
+
+.check-elements{
+    padding-left: 20px;
+    color: var(--dark-red);
+}
+.form-check-input:checked{
+    background-color: var(--dark-yellow);
+}
+
+.form-check-input:checked[type=checkbox]{
+    --bs-form-check-bg-image: var(--black-check);
+    border: 2px solid var(--dark-red);
+}
+
+input[type=file]:focus, input[type=checkbox]:focus, input[type=radio]:focus{
+    outline: none;
+}
+.form-check-label{
+    font-size: 16px;
+}
+.form-check-input:focus{
+    border-color: var(--dark-red);
+    box-shadow: none;
+}
+

@@ -3,40 +3,63 @@
     <head>
         <title> EaseAster | Log In</title>
         <%- include("mainheader") -%>
-          
-
+        <link rel="stylesheet" href="./css/projects.css">
     </head>
     <body>
         <%- include("header") -%>
+        <nav aria-label="breadcrumb" class="bc-nav">
+            <ol class="breadcrumb container">
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Projects</li>
+            </ol>
+        </nav>
+        <div class="content-title">RROJECTS</div>
+        <div class="projects-container container">
 
-        <h1>PROJECTS</h1>
-        <% for (let project of projects) { %>
-            <%= project.name %>
-            <% if(project.collectionPoint){ %>
-                <%= project.collectionPoint.name %>
-                <%= project.collectionPoint.description %>
-                <%= project.collectionPoint.address %>
-                <div>Collected Items</div>
+            <% for (let project of projects) { %>
+                <div class="project">
+                    <div class="project-title">
+                        <%= project.name %>
+                    </div>
+                    <div class="row">
+                        <% if(project.collectionPoint){ %>
+                            <div class="col-6">
+                                <div class="point-naame">
+                                    <%= project.collectionPoint.name %>
+                                </div>
+                                <%= project.collectionPoint.description %>
+                                <%= project.collectionPoint.address %>
+                                <div>Collected Items</div>
 
-                <ul>
-                    <% for (item of project.collectionPoint.items) { %>
-                        <li><%= item.name %></li>
-                    <% } %>
-                </ul>
-            <%} %>
-            <% if(project.distributionPoint){ %>
-                <%= project.distributionPoint.name %>
-                <%= project.distributionPoint.description %>
-                <%= project.distributionPoint.address %>
-                <div>Collected Items</div>
+                                <ul>
+                                    <% for (item of project.collectionPoint.items) { %>
+                                        <li><%= item.name %></li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        <%} %>
+                        <% if(project.distributionPoint){ %>
+                            <div class="col-6">
+                                <div class="point-naame">
+                                    <%= project.distributionPoint.name %>
+                                </div>
+                                <%= project.distributionPoint.description %>
+                                <%= project.distributionPoint.address %>
+                                <div>Collected Items</div>
 
-                <ul>
-                    <% for (item of project.distributionPoint.items) { %>
-                        <li><%= item.name %></li>
-                    <% } %>
-                </ul>
-            <%} %>
-        <% } %>
-    </body>
+                                <ul>
+                                    <% for (item of project.distributionPoint.items) { %>
+                                        <li><%= item.name %></li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        <%} %>
+                    </div>
+                </div>
+            <% } %>
 
+            <a class="add-new-project" href="/new-project">
+                <img class="add-new-project-image" src='./img/add-new.png' />
+                <div>NEW PROJECT</div></a>
+        </div>
     <%- include("footer") -%>
