@@ -24,12 +24,14 @@
                     <div class="row">
                         <% if(project.collectionPoint){ %>
                             <div class="col-6">
-                                <div class="point-naame">
+                                <div class="point-name">
                                     <%= project.collectionPoint.name %>
                                 </div>
-                                <%= project.collectionPoint.description %>
-                                <%= project.collectionPoint.address %>
-                                <div>Collected Items</div>
+                                <div class="point-discription">
+                                    <span class="bold-text">Description: </span> <%= project.collectionPoint.description %>
+                                </div>
+                                <div><span class="bold-text">Location: </span><%= project.collectionPoint.address %></div>
+                                <div class="bold-text">Collected Items:</div>
 
                                 <ul>
                                     <% for (item of project.collectionPoint.items) { %>
@@ -40,12 +42,14 @@
                         <%} %>
                         <% if(project.distributionPoint){ %>
                             <div class="col-6">
-                                <div class="point-naame">
+                                <div class="point-name">
                                     <%= project.distributionPoint.name %>
                                 </div>
-                                <%= project.distributionPoint.description %>
-                                <%= project.distributionPoint.address %>
-                                <div>Collected Items</div>
+                                <div class="point-discription">
+                                    <span class="bold-text">Description: </span><%= project.distributionPoint.description %>
+                                </div>
+                                <span class="bold-text">Location: </span><%= project.distributionPoint.address %>
+                                <div class="bold-text">Distributed Items:</div>
 
                                 <ul>
                                     <% for (item of project.distributionPoint.items) { %>

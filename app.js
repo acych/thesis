@@ -161,6 +161,7 @@ app.post('/register', async function(req,res){
     }
     else{
        let userData = {
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         address: req.body.address,
@@ -187,7 +188,7 @@ app.post('/register', async function(req,res){
 
 app.get('/find', async function(req,res){
     const UDPoints = await db.getDistributionPoints();
-    res.render('points',{title:'find',points:UDPoints});
+    res.render('points',{title:'Find',points:UDPoints,type:'D'});
 })
     // console.log("Email is " + req.body.email + " and password is " + req.body.password + " taxID is "+ req.body.taxID + " password rewrite " + req.body.validPassword);
 

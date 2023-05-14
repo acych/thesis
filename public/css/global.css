@@ -43,3 +43,9 @@ a,a:hover{
     font-size: 20px;
     padding: 10px 0;
 }
+
+.bold-text{
+    font-weight: bolder;
+    -webkit-text-stroke: 1px black; /* for Safari */
+    text-stroke: 1px black;
+}

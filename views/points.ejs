@@ -3,18 +3,50 @@
     <head>
         <title> EaseAster | Log In</title>
         <%- include("mainheader") -%>
-          
-
+        <link rel="stylesheet" href="./css/points.css">
     </head>
     <body>
         <%- include("header") -%>
-
-        <h1><%= title %></h1>
-        <% for (let point of points) { %>
-            <%= point.user.email %>
-            <% for (let pointInfo of point.distributionPoints) { %>
-                <%= pointInfo.name %>
-                <% } %>
-
+        <nav aria-label="breadcrumb" class="bc-nav">
+            <ol class="breadcrumb container">
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/individual">Individual</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%= title %>
+                </li>
+            </ol>
+        </nav>
+        <div class="content-title">
+            <% if (type=='D'){ %>
+                DISTRIBUTION POINTS
             <% } %>
+        </div>
+        <div class="container points-container">
+        <% for (let point of points) { %>
+            <% if (type=='D'){ %>
+            <% for (let pointInfo of point.distributionPoints) { %>
+                <div class="point">
+                    <div>
+                        <% if (pointInfo.items.length>0){ %>
+                            Distributed Items:
+                            <ul>
+                                <% for (let item of pointInfo.items){ %>
+                                    <li class="bold-text"><%= item.name %></li>
+                                <% } %>
+                            </ul>
+                        <% } %>
+                    </div>
+                    <div>
+                        Distributed by: <%= point.user.name %>
+                    </div>
+
+                    <div>
+                        Distributed at: <%= pointInfo.name %>
+                    </div>
+                    <div><%= pointInfo.description %></div>
+                    <div>Location: <span class="bold-text"><%= pointInfo.address %></span></div>
+                </div>
+                <% } %>
+            <% } %>
+            <% } %>
+        </div>
 <%- include("footer") -%>

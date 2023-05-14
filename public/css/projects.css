@@ -43,7 +43,7 @@
 }
 
 .project-title{
-    margin-bottom: 40px;    
+    margin-bottom: 40px;        
     text-align: center;
     font-size: 20px;
     font-family: 'Vast Shadow';
@@ -53,11 +53,15 @@
     color: var(--dark-red);
 }
 
-.point-naame{
+.point-name{
     font-size: 16px;
     margin-bottom: 10px;
     text-align: center;
     font-weight: bold;
     -webkit-text-stroke: 1px black; /* for Safari */
     text-stroke: 1px black;
+}
+
+.point-discription{
+    width: 90%;
 }
