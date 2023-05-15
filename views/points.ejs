@@ -18,16 +18,27 @@
         <div class="content-title">
             <% if (type=='D'){ %>
                 DISTRIBUTION POINTS
+            <% } else if (type=='C'){ %>
+                COLLECTION POINTS
             <% } %>
         </div>
         <div class="container points-container">
         <% for (let point of points) { %>
+            <% var infoPoints; %>
             <% if (type=='D'){ %>
-            <% for (let pointInfo of point.distributionPoints) { %>
+                <% infoPoints = point.distributionPoints %>
+                <% } else if (type=='C'){ %>
+                    <% infoPoints = point.collectionPoints %>
+                <% } %>
+            <% for (let pointInfo of infoPoints) { %>
                 <div class="point">
                     <div>
                         <% if (pointInfo.items.length>0){ %>
-                            Distributed Items:
+                            <% if (type=='D'){ %>
+                                Distributed Items:
+                            <% } else if (type=='C'){ %>
+                                Collected Items:
+                            <% } %>
                             <ul>
                                 <% for (let item of pointInfo.items){ %>
                                     <li class="bold-text"><%= item.name %></li>
@@ -36,17 +47,25 @@
                         <% } %>
                     </div>
                     <div>
-                        Distributed by: <%= point.user.name %>
+                        <% if (type=='D'){ %>
+                            Distributed by:
+                        <% } else if (type=='C'){ %>
+                            Collected by:
+                        <% } %>
+                        <%= point.user.name %>
                     </div>
 
                     <div>
-                        Distributed at: <%= pointInfo.name %>
+                        <% if (type=='D'){ %>
+                            Distributed at: <%= pointInfo.name %>
+                        <% } else if (type=='C'){ %>
+                            Collected at: <%= pointInfo.name %>
+                        <% } %>
                     </div>
                     <div><%= pointInfo.description %></div>
                     <div>Location: <span class="bold-text"><%= pointInfo.address %></span></div>
                 </div>
                 <% } %>
-            <% } %>
             <% } %>
         </div>
 <%- include("footer") -%>

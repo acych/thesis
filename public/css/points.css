@@ -12,11 +12,10 @@
     padding: 20px 35px;
     border-radius: 20px;
     width: 30%;
-    background-color: var(--dark-red);
+    background-color: var(--medium-red);
     color: black;
 }
 
 .point:nth-child(even){
-    background-color: var(--dark-yellow);
-
+    background-color: var(--medium-yellow);
 }

@@ -190,9 +190,11 @@ app.get('/find', async function(req,res){
     const UDPoints = await db.getDistributionPoints();
     res.render('points',{title:'Find',points:UDPoints,type:'D'});
 })
-    // console.log("Email is " + req.body.email + " and password is " + req.body.password + " taxID is "+ req.body.taxID + " password rewrite " + req.body.validPassword);
 
-// })
+app.get('/offer',async function(req,res){
+    const UCPoints = await db.getCollectionPoints();
+    res.render('points',{title:'Offer',points:UCPoints,type:'C'});
+})
 
 app.listen(4000, () =>{
     console.log('Server started listening on port 4000');
