@@ -135,7 +135,7 @@ async function createUser(userData) {
     const user = new UserModel(userData);
     await user.save();
     console.log('New user created:', user);
-    return user._id;
+    return user;
   } catch (err) {
     console.error('Error creating user:', err.message);
     return null;
@@ -322,9 +322,6 @@ async function getCollectionPoints() {
         collectionPoints
       });
       console.log(collectionPoints)
-    }
-    else{
-      console.log("EEEEMPTYYYY")
     }
   });
   return usersWithCollectionPoints;

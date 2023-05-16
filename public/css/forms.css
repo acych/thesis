@@ -1,4 +1,4 @@
-@import "variabled.css";
+@import "variables.css";
 
 textarea,input{
     display: block;
@@ -7,7 +7,7 @@ textarea,input{
     border-radius: 20px;
     border: 1px solid;
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 textarea:valid,input:valid{
     border: 1px solid var(--dark-red);
@@ -17,7 +17,19 @@ textarea:focus,input:focus{
     outline: none;
     border: 2px solid var(--dark-red);
 }
-
+.error-message{
+    max-width: 320px;
+    margin-left: 20px;
+    margin-top: 5px;
+    font-size: 10px;
+    color: red;
+}
+.inputs-empty{
+    border-radius: 7px;
+    border: 1px solid red;
+    width: fit-content;
+    padding: 2px 5px;
+}
 textarea {
     resize: none;
     height: 130px;

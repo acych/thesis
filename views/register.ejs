@@ -16,19 +16,20 @@
         </nav>
         <div class="content-title">REGISTER</div>
         <div class="form-container">
-            <form action="/register" method="post">
-                <input type="text" name="name" placeholder="Organization's name" />
-                <input type="text" name="taxID" placeholder="Tax-ID"/>
-                <input type="text" name="address" placeholder="Address" />
-                <input type="text" name="city" placeholder="City"/>
-                <input type="text" name="postalCode" placeholder="Postal code">
-                <input type="text" name="country" placeholder="Country" />
-                <input type="tel" name="phone" placeholder="Phone" />
-                <input type="email" name="email" placeholder="Email" />
-                <input type="password" name="password" placeholder="Password" />
-                <input type="password" name="validPassword" placeholder="Retype password" />
+            <form id="register-form" action="/register" method="post">
+                <input type="text"  name="name" placeholder="Organization's name" />
+                <input id="tax-id" type="text" name="taxID" placeholder="Tax-ID"/>
+                <input type="text"  name="address" placeholder="Address" />
+                <input type="text"  name="city" placeholder="City"/>
+                <input type="text" id="postal-code" name="postalCode" placeholder="Postal code">
+                <input type="text"  name="country" placeholder="Country" />
+                <input type="tel" id="phone"  name="phone" placeholder="Phone" />
+                <input id="email" type="email"  name="email" placeholder="Email" />
+                <input id="password" type="password" name="password" placeholder="Password" />
+                <input id="password-val" type="password"  name="validPassword" placeholder="Retype password" />
                 <a class="cancel-button" href="/organization">CANCEL</a>
                 <button class="submit-button" type="submit">REGISTER</button>
             </form>
         </div>
+        <script src="./js/formValidations.js"></script>
         <%- include("footer") -%>
