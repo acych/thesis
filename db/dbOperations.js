@@ -5,11 +5,9 @@ const uri = "mongodb+srv://acychroni:Aspeq7f7hs!@easeaster.avkuitf.mongodb.net/?
 const collectionPointSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
   },
   description: {
     type: String,
-    required: true
   },
   address: {
     type: String,
@@ -30,21 +28,18 @@ const collectionPointSchema = new mongoose.Schema({
 const distributionPointSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
   },
   description: {
     type: String,
-    required: true
   },
   address: {
     type: String,
-    required: true
   },
   items: [{
     itemId: {
       type: mongoose.Schema.Types.ObjectId,
+      required: true,
       ref: 'Item',
-      required: true
     },
     name: {
       type: String,
@@ -60,12 +55,10 @@ const projectSchema = new mongoose.Schema({
   collectionPoint: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'CollectionPoint',
-    required: false
   },
   distributionPoint: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'DistributionPoint',
-    required: false
   },
 });
 
@@ -175,6 +168,14 @@ async function getAllCategoriesAndItems() {
     console.log('Disconnected from MongoDB Atlas');
   }
   return allItems;
+}
+
+
+function checkEmptyPoint(obj) {
+  if (obj.name === "" && obj.description === "" && obj.address === "" && obj.items.length === 0) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -304,7 +305,6 @@ async function getCollectionPoints() {
     }
   });
 
-  console.log("Users found"+ users)
   // Create an array of objects containing users with distribution points and their DPoints
   const usersWithCollectionPoints = [];
 
@@ -321,7 +321,6 @@ async function getCollectionPoints() {
         user: user.toObject(),
         collectionPoints
       });
-      console.log(collectionPoints)
     }
   });
   return usersWithCollectionPoints;
@@ -329,8 +328,15 @@ async function getCollectionPoints() {
 
 async function createProject(CPData, DPData, name, userId){
   try{
-    var cp = await createCollectionPoint(CPData);
-    var dp = await createDistributionPoint(DPData);
+    var cp,dp;
+    if(!checkEmptyPoint(CPData)){
+      cp = await createCollectionPoint(CPData);
+    }
+    if(!checkEmptyPoint(DPData)){
+      dp = await createDistributionPoint(DPData);
+    }
+    if(cp || dp || name){
+      console.log("GOT HERE")
     var projectData = {
       name: name,
       collectionPoint: cp,
@@ -341,6 +347,7 @@ async function createProject(CPData, DPData, name, userId){
     await project.save();
     const projectId = project._id.toString();
     await insertProjectToUser(projectId,userId);
+  }
   }catch (err) {
     console.error('Error creating project', err.message);
   } finally {
@@ -427,7 +434,6 @@ async function getAllUserProjects(userId) {
       if (!foundProject) {
         console.log(`Project not found`);
       } else {
-        console.log(`Found project: ${foundProject}`);
         var pName = foundProject.name;
         var cPoint = null;
         var dPoint = null;

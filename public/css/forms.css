@@ -151,3 +151,7 @@ input[type=file]:focus, input[type=checkbox]:focus, input[type=radio]:focus{
     box-shadow: none;
 }
 
+.buttons-container{
+    display: flex;
+    justify-content: space-between;
+}

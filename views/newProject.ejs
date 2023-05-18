@@ -17,7 +17,7 @@
       <div class="content-title">NEW PROJECT</div>
       <div class="form-container new-project">
         <form action="/new-project" method="post">
-            <input type="text" name="pName" placeholder="Project's name"/>
+            <input class="mb-4" type="text" name="pName" placeholder="Project's name"/>
             <div class="accordion accordion-flush" id="collection-accordion">
                 <div id="product-filter-sidebar-manufacturers" class="product-filter-sidebar widget-area accordion-item" role="complementary">
                   <h3 id="heading-manufacturers" class="accordion-header">
@@ -27,8 +27,27 @@
                     <div class="accordion-body">
                       <input type="text" name="collectionName" placeholder="Collection's Point Name" />
                       <textarea maxlength="300" type="text" name="collectionDescription" placeholder="Description (general description and open hours)" ></textarea>
-                      <input type="text" name="collectionLocation" placeholder="Location" />
-
+                      <!-- <input class="mb-4" type="text" name="collectionLocation" placeholder="Location" /> -->
+                      <div class="location-inputs">
+                        <div>Collection point address</div>
+                        <div class="row">
+                          <div class="col">
+                            <input type="text" name="collectionAddress" placeholder="Address"/>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="collectionCity" placeholder="City"/>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="collectionPostalCode" placeholder="Postal Code"/>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="collectionArea" placeholder="Area/Region"/>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="collectionCountry" placeholder="Country"/>
+                          </div>
+                        </div>
+                      </div>
                         <% for (let category of allItems) { %>
                             <div class="accordion accordion-flush accordion-category">
                                 <div class="accordion-item">
@@ -60,10 +79,28 @@
                   </h3>
                   <div id="distribution-point" aria-labelledby="heading-manufacturers" data-bs-parent="#product-filter-accordion" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <input type="text" name="distributionionName" placeholder="Distribution's Point Name" />
+                        <input type="text" name="distributionName" placeholder="Distribution's Point Name" />
                         <textarea maxlength="300" type="text" name="distirbutionDescription" placeholder="Description (general description and open hours)"></textarea>
-                        <input type="text" name="distributiontionLocation" placeholder="Location" />
-
+                        <div class="location-inputs">
+                          <div>Distribution point address</div>
+                          <div class="row">
+                            <div class="col">
+                              <input type="text" name="distributionAddress" placeholder="Address"/>
+                            </div>
+                            <div class="col">
+                              <input type="text" name="distibutionCity" placeholder="City"/>
+                            </div>
+                            <div class="col">
+                              <input type="text" name="distributionPostalCode" placeholder="Postal Code"/>
+                            </div>
+                            <div class="col">
+                              <input type="text" name="distributionArea" placeholder="Area/Region"/>
+                            </div>
+                            <div class="col">
+                              <input type="text" name="distributionCountry" placeholder="Country"/>
+                            </div>
+                          </div>
+                        </div>
                         <% for (let category of allItems) { %>
                             <div class="accordion accordion-flush accordion-category">
                                 <div class="accordion-item">
@@ -88,8 +125,10 @@
                   </div>
                 </div>
               </div>
+              <div class="buttons-container">
             <a class="cancel-button" href="/projects">CANCEL</a>
             <button class="submit-button" type="submit">SAVE</button>
+          </div>
         </form>
         </div>
         <!-- <script src="./js/new-project.js"></script> -->

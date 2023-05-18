@@ -25,8 +25,10 @@
                         <% if(project.collectionPoint){ %>
                             <div class="col-6">
                                 <div class="point-name">
-                                    <%= project.collectionPoint.name %>
+                                    Collection Point
                                 </div>
+                                <div><span class="bold-text">Name: </span><%= project.collectionPoint.name %></div>
+
                                 <div class="point-discription">
                                     <span class="bold-text">Description: </span> <%= project.collectionPoint.description %>
                                 </div>
@@ -39,12 +41,15 @@
                                     <% } %>
                                 </ul>
                             </div>
+                        <%} else { %>
+                            ADD COLLECTION POINT
                         <%} %>
                         <% if(project.distributionPoint){ %>
                             <div class="col-6">
                                 <div class="point-name">
-                                    <%= project.distributionPoint.name %>
+                                    Distribution Point
                                 </div>
+                                <div><span class="bold-text">Name: </span><%= project.distributionPoint.name %></div>
                                 <div class="point-discription">
                                     <span class="bold-text">Description: </span><%= project.distributionPoint.description %>
                                 </div>
@@ -57,6 +62,8 @@
                                     <% } %>
                                 </ul>
                             </div>
+                        <%} else { %>
+                            ADD DISTRIBUTION POINT
                         <%} %>
                     </div>
                 </div>

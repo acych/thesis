@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const db = require("./db/dbOperations");
+const { isObjectIdOrHexString } = require('mongoose');
 
 const app = express();
 
@@ -103,6 +104,69 @@ app.get('/projects',async (req,res)=>{
     }
 })
 
+function createCLocation(req){
+    let location= "";
+    if(req.body.collectionAddress){
+        location+=req.body.collectionAddress;
+    }
+    if(req.body.collectionCity){
+        if(location!==""){
+            location+=", ";
+        }
+        location+=req.body.collectionCity
+    }
+    if(req.body.collectionPostalCode){
+        if(location!==""){
+            location+=", ";
+        }
+        location+=req.body.collectionPostalCode;
+    }
+    if(req.body.collectionArea){
+        if(location!==""){
+            location+=", ";
+        }
+        location+=req.body.collectionArea;
+    }
+    if(req.body.collectionCountry){
+        if(location!==""){
+            location+=", ";
+        }
+        location+=req.body.collectionCountry;
+    }
+    return location;
+}
+
+function createDLocation(req){
+    let location = "";
+    if(req.body.distributionAddress){
+        location+= req.body.distributionAddress;
+    }
+    if(req.body.distibutionCity){
+        if(location!=""){
+            location+=", ";
+        }
+        location+= req.body.distibutionCity;
+    }
+    if(req.body.distributionPostalCode){
+        if(location!=""){
+            location+=", ";
+        }
+        location+= req.body.distributionPostalCode;
+    }
+    if(req.body.distributionArea){
+        if(location!=""){
+            location+=", ";
+        }
+        location+=req.body.distributionArea;
+    }
+    if(req.body.distributionCountry){
+        if(location!=""){
+            location+=", ";
+        }
+        location+=req.body.distributionCountry;
+    }
+    return location;
+}
 
 app.get('/new-project', async (req, res) => {
     try {
@@ -123,26 +187,44 @@ app.post('/new-project', async (req,res)=>{
             return { itemId: item.id, name: item.name };
           });
       }
-      if (req.body.distribution) {
-        distributionItems = req.body.distribution.map(value => {
-            const item = JSON.parse(value);
-            return { itemId: item.id, name: item.name };
-          });
+      var cName = "";
+      if(req.body.collectionName){
+        cName = req.body.collectionName;
+      }
+      var cDescription = "";
+      if(req.body.collectionDescription){
+        cDescription = req.body.collectionDescription;
       }
     var collectionPoint = {
-        name: req.body.collectionName,
-        description: req.body.collectionDescription,
-        address: req.body.collectionLocation,
+        name: cName,
+        description: cDescription,
+        address: createCLocation(req),
         items: collectionItems
     }
-
-    var distributionPoint = {
-    name: req.body.distributionionName,
-    description: req.body.distirbutionDescription,
-    address: req.body.distributiontionLocation,
-    items: distributionItems
+    var dName = "";
+    if(req.body.distributionName){
+      dName = req.body.distributionName;
+    }
+    var dDescription = "";
+    if(req.body.distirbutionDescription){
+      dDescription = req.body.distirbutionDescription;
     }
 
+    if (req.body.distribution) {
+    distributionItems = req.body.distribution.map(value => {
+        const item = JSON.parse(value);
+        return { itemId: item.id, name: item.name };
+        });
+    }
+
+
+
+    var distributionPoint = {
+    name: dName,
+    description: dDescription,
+    address: createDLocation(req),
+    items: distributionItems
+    }
     try {
         await db.createProject(collectionPoint,distributionPoint,req.body.pName,req.session.user._id);
         res.redirect('/projects');
