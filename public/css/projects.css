@@ -65,3 +65,11 @@
 .point-discription{
     width: 90%;
 }
+
+.add-point{
+    background-color: var(--dark-yellow);
+}
+
+.add-point-container{
+    width: 600px;
+}

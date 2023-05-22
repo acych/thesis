@@ -99,7 +99,7 @@ app.get('/projects',async (req,res)=>{
     else{
 
             var projects = await db.getAllUserProjects(req.session.user);
-            console.log(projects)
+            // console.log(projects)
             res.render('projects',{projects:projects});
     }
 })
@@ -276,6 +276,63 @@ app.get('/find', async function(req,res){
 app.get('/offer',async function(req,res){
     const UCPoints = await db.getCollectionPoints();
     res.render('points',{title:'Offer',points:UCPoints,type:'C'});
+})
+
+
+app.get('/add-collection-point', function(req,res){
+    req.session.projectId = req.query.prid;
+    req.session.type = 'C';
+    res.redirect('/add-point')
+})
+
+app.get('/add-point',async function(req,res){
+    const allItems = await db.getAllCategoriesAndItems();
+    if(req.session.type=='C'){
+        res.render('addCollectionPoint',{type:req.session.type,projectId:req.session.projectId,items:allItems});
+    }
+})
+
+app.post("/add-collection-point", async function(req,res){
+    var collectionItems = [];
+    if (req.body.collection) {
+        collectionItems = req.body.collection.map(value => {
+            const item = JSON.parse(value);
+            return { itemId: item.id, name: item.name };
+          });
+      }
+      var cName = "";
+      if(req.body.collectionName){
+        cName = req.body.collectionName;
+      }
+      var cDescription = "";
+      if(req.body.collectionDescription){
+        cDescription = req.body.collectionDescription;
+      }
+    var collectionPoint = {
+        name: cName,
+        description: cDescription,
+        address: createCLocation(req),
+        items: collectionItems
+    }
+    try {
+        await db.addCollectionPoint(collectionPoint,req.session.projectId);
+        res.redirect('/projects');
+    }catch (err) {
+        console.error('Error creating project:', err);
+        res.status(500).send('Internal server error');
+    }
+})
+
+app.get('/edit-collection-point', function(req,res){
+    req.session.projectId = req.query.prid;
+    req.session.type = 'C';
+    req.session.pointId = null;
+    res.redirect('/edit-point')
+})
+
+app.get('/edit-point',async function(req,res){
+    const allItems = await db.getAllCategoriesAndItems();
+    res.render('editPoint',{type:req.session.type,projectId:req.session.projectId,pointId:req.session.pointId,items:allItems});
 })
 
 app.listen(4000, () =>{

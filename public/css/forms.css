@@ -130,6 +130,7 @@ textarea {
 .check-elements{
     padding-left: 20px;
     color: var(--dark-red);
+    text-align: left;
 }
 .form-check-input:checked{
     background-color: var(--dark-yellow);
@@ -154,4 +155,21 @@ input[type=file]:focus, input[type=checkbox]:focus, input[type=radio]:focus{
 .buttons-container{
     display: flex;
     justify-content: space-between;
+}
+
+.location-inputs{
+    border: 1px solid var(--dark-red);
+    border-radius: 15px;
+    margin: 10px 0;
+    padding: 20px 10px;
+}
+
+.location-iputs-title{
+    padding-left: 20px;
+    text-align: left;
+}
+
+.optional-text{
+    color: var(--light-red);
+    padding-left: 10px;
 }

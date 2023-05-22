@@ -434,6 +434,7 @@ async function getAllUserProjects(userId) {
       if (!foundProject) {
         console.log(`Project not found`);
       } else {
+        var pID = foundProject._id;
         var pName = foundProject.name;
         var cPoint = null;
         var dPoint = null;
@@ -444,6 +445,7 @@ async function getAllUserProjects(userId) {
           dPoint = await DistributionPointModel.findById(foundProject.distributionPoint);
         }
         var fProject = {
+          _id: pID,
           name : pName,
           collectionPoint : cPoint,
           distributionPoint : dPoint
@@ -461,5 +463,49 @@ async function getAllUserProjects(userId) {
   }
 }
 
+async function addCollectionPointToProject(collectionPointId, prid) {
+  try {
+    await mongoose.connect(uri);
 
-module.exports = {getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+    const updatedProject = await ProjectModel.findByIdAndUpdate(
+      prid,
+      { $set: { collectionPoint: collectionPointId } },
+      { new: true }
+    );
+
+    if (updatedProject) {
+      await updatedProject.save();
+      console.log('Collection point added to project:', updatedProject);
+    } else {
+      console.log('Project not found');
+    }
+
+    await mongoose.disconnect();
+  } catch (error) {
+    console.error('Error adding collection point to project:', error);
+  }
+}
+
+async function addCollectionPoint(CPData,prid){
+  try{
+    var cp;
+    if(!checkEmptyPoint(CPData)){
+      cp = await createCollectionPoint(CPData);
+    }
+    if(cp){
+      // console.log("THE COLLECTIONS POINT ID is "+ cp._id+"END THE CP IS "+cp)
+      await addCollectionPointToProject(cp, prid);
+    }
+    // await connect();
+    // await editProjectToUser(projectId,userId);
+  }catch (err) {
+    console.error('Error creating project', err.message);
+  } finally {
+    // disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
+}
+
+
+module.exports = {addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

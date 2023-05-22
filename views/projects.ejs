@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> EaseAster | Log In</title>
+        <title> EaseAster | Projects</title>
         <%- include("mainheader") -%>
         <link rel="stylesheet" href="./css/projects.css">
     </head>
@@ -22,8 +22,9 @@
                         <%= project.name %>
                     </div>
                     <div class="row">
-                        <% if(project.collectionPoint){ %>
-                            <div class="col-6">
+                        <div class="col-6">
+
+                            <% if(project.collectionPoint){ %>
                                 <div class="point-name">
                                     Collection Point
                                 </div>
@@ -40,12 +41,13 @@
                                         <li><%= item.name %></li>
                                     <% } %>
                                 </ul>
-                            </div>
-                        <%} else { %>
-                            ADD COLLECTION POINT
-                        <%} %>
-                        <% if(project.distributionPoint){ %>
-                            <div class="col-6">
+                                <a class="add-point" href="/edit-collection-point/?prid=<%= project._id %>&cid=<%=project.collectionPoint._id%>">EDIT COLLECTION POINT</a>
+                             <%} else { %>
+                                <a class="add-point" href="/add-collection-point/?prid=<%= project._id %>">ADD COLLECTION POINT</a>
+                            <%} %>
+                        </div>
+                        <div class="col-6">
+                            <% if(project.distributionPoint){ %>
                                 <div class="point-name">
                                     Distribution Point
                                 </div>
@@ -61,10 +63,11 @@
                                         <li><%= item.name %></li>
                                     <% } %>
                                 </ul>
-                            </div>
-                        <%} else { %>
-                            ADD DISTRIBUTION POINT
-                        <%} %>
+                                <a class="add-point" href="/edit-distribution-point/?prid=<%= project._id %>&did=<%=project.distributionPoint._id%>">EDIT DISTRIBUTION POINT</a>
+                            <%} else { %>
+                                <a class="add-point" href="/add-distribution-point/?prid=<%= project._id %>">ADD DISTRIBUTION POINT</a>
+                            <%} %>
+                        </div>
                     </div>
                 </div>
             <% } %>

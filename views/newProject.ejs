@@ -21,23 +21,22 @@
             <div class="accordion accordion-flush" id="collection-accordion">
                 <div id="product-filter-sidebar-manufacturers" class="product-filter-sidebar widget-area accordion-item" role="complementary">
                   <h3 id="heading-manufacturers" class="accordion-header">
-                    <button data-bs-toggle="collapse" data-bs-target="#collapse-manufacturers" aria-controls="collapse-manufacturers" aria-expanded="false" class="add-point accordion-button collapsed" type="button"><span class="add">+</span> Add Collection Point</button>
+                    <button data-bs-toggle="collapse" data-bs-target="#collapse-manufacturers" aria-controls="collapse-manufacturers" aria-expanded="false" class="add-point accordion-button collapsed" type="button"><span class="add">+</span> Add Collection Point <span class="optional-text">(Optional)</span></button>
                   </h3>
                   <div id="collapse-manufacturers" aria-labelledby="heading-manufacturers" data-bs-parent="#collection-accordion" class="accordion-collapse collapse">
                     <div class="accordion-body">
                       <input type="text" name="collectionName" placeholder="Collection's Point Name" />
                       <textarea maxlength="300" type="text" name="collectionDescription" placeholder="Description (general description and open hours)" ></textarea>
-                      <!-- <input class="mb-4" type="text" name="collectionLocation" placeholder="Location" /> -->
                       <div class="location-inputs">
-                        <div>Collection point address</div>
+                        <div class="location-iputs-title">Collection point address</div>
                         <div class="row">
-                          <div class="col">
+                          <div class="col-6">
                             <input type="text" name="collectionAddress" placeholder="Address"/>
                           </div>
-                          <div class="col">
+                          <div class="col-4">
                             <input type="text" name="collectionCity" placeholder="City"/>
                           </div>
-                          <div class="col">
+                          <div class="col-3">
                             <input type="text" name="collectionPostalCode" placeholder="Postal Code"/>
                           </div>
                           <div class="col">
@@ -75,22 +74,22 @@
               <div class="accordion accordion-flush" id="product-filter-accordion">
                 <div id="product-filter-sidebar-manufacturers" class="product-filter-sidebar widget-area accordion-item" role="complementary">
                   <h3 id="heading-distribution" class="accordion-header">
-                    <button data-bs-toggle="collapse" data-bs-target="#distribution-point" aria-controls="distribution-point" aria-expanded="false" class="add-point accordion-button collapsed" type="button"><span class="add">+</span> Add Distribution Point</button>
+                    <button data-bs-toggle="collapse" data-bs-target="#distribution-point" aria-controls="distribution-point" aria-expanded="false" class="add-point accordion-button collapsed" type="button"><span class="add">+</span> Add Distribution Point <span class="optional-text">(Optional)</span></button>
                   </h3>
                   <div id="distribution-point" aria-labelledby="heading-manufacturers" data-bs-parent="#product-filter-accordion" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <input type="text" name="distributionName" placeholder="Distribution's Point Name" />
                         <textarea maxlength="300" type="text" name="distirbutionDescription" placeholder="Description (general description and open hours)"></textarea>
                         <div class="location-inputs">
-                          <div>Distribution point address</div>
+                          <div class="location-iputs-title">Distribution point address</div>
                           <div class="row">
-                            <div class="col">
+                            <div class="col-6">
                               <input type="text" name="distributionAddress" placeholder="Address"/>
                             </div>
-                            <div class="col">
+                            <div class="col-4">
                               <input type="text" name="distibutionCity" placeholder="City"/>
                             </div>
-                            <div class="col">
+                            <div class="col-3">
                               <input type="text" name="distributionPostalCode" placeholder="Postal Code"/>
                             </div>
                             <div class="col">

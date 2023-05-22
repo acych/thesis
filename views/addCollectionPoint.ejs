@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> EaseAster | Projects</title>
+        <%- include("mainheader") -%>
+        <link rel="stylesheet" href="./css/projects.css">
+        <link rel="stylesheet" href="./css/forms.css">
+    </head>
+    <body>
+        <%- include("header") -%>
+        <nav aria-label="breadcrumb" class="bc-nav">
+            <ol class="breadcrumb container">
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/projects">Projects</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <% if(type=='C'){ %>
+                        Add Collection Point
+                    <% } else{ %>
+                        Add Distribution Point
+                   <% } %>
+                </li>
+            </ol>
+        </nav>
+        <div class="content-title">
+            <% if(type=='C'){ %>
+                ADD COLLECTION POINT
+            <% } else{ %>
+                ADD DISTRIBUTION POINT
+            <% } %>
+        </div>
+        <div class="projects-container add-point-container container">
+          <form action="/add-collection-point" method="post">
+                    <input type="text" name="collectionName" placeholder="Collection's Point Name" />
+                    <textarea maxlength="300" type="text" name="collectionDescription" placeholder="Description (general description and open hours)" ></textarea>
+                    <div class="location-inputs">
+                      <div class="location-iputs-title">Collection point address</div>
+                      <div class="row">
+                        <div class="col-6">
+                          <input type="text" name="collectionAddress" placeholder="Address"/>
+                        </div>
+                        <div class="col-4">
+                          <input type="text" name="collectionCity" placeholder="City"/>
+                        </div>
+                        <div class="col-4">
+                          <input type="text" name="collectionPostalCode" placeholder="Postal Code"/>
+                        </div>
+                        <div class="col">
+                          <input type="text" name="collectionArea" placeholder="Area/Region"/>
+                        </div>
+                        <div class="col">
+                          <input type="text" name="collectionCountry" placeholder="Country"/>
+                        </div>
+                      </div>
+                    </div>
+            <% for (let category of items) { %>
+                <div class="accordion accordion-flush accordion-category">
+                    <div class="accordion-item">
+                      <button data-bs-toggle="collapse" data-bs-target="#id-<%= category.id %>" aria-controls="id-<%= category.id %> aria-expanded="false" class="accordion-button collapsed" type="button">Category: <%= category.name %></button>
+                      <div id="id-<%= category.id %>" class="accordion-collapse collapse collapsed check-elements">
+                          <% for (let item of category.items) { %>
+
+                            <div class="form-check">
+                              <input class="form-check-input checkbox-item" type="checkbox" name="collection[]" value='{"id": "<%= item.id %>", "name": "<%= item.name %>"}' id="i-<%= item.id %>">
+                              <label class="form-check-label" for="i-<%= item.id %>">
+                                <%= item.name %>
+                              </label>
+                            </div>
+
+                          <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  
+              <% } %> 
+              <div class="buttons-container">
+            <a class="cancel-button" href="/projects">CANCEL</a>
+            <button class="submit-button" type="submit">SAVE</button>
+            </div>
+        </form>
+      </div>
+
+        <%- include("footer") -%>
