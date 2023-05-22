@@ -486,6 +486,29 @@ async function addCollectionPointToProject(collectionPointId, prid) {
   }
 }
 
+async function addDistributionPointToProject(distributionPointId, prid) {
+  try {
+    await mongoose.connect(uri);
+
+    const updatedProject = await ProjectModel.findByIdAndUpdate(
+      prid,
+      { $set: { distributionPoint: distributionPointId } },
+      { new: true }
+    );
+
+    if (updatedProject) {
+      await updatedProject.save();
+      console.log('Distribution point added to project:', updatedProject);
+    } else {
+      console.log('Project not found');
+    }
+
+    await mongoose.disconnect();
+  } catch (error) {
+    console.error('Error adding collection point to project:', error);
+  }
+}
+
 async function addCollectionPoint(CPData,prid){
   try{
     var cp;
@@ -493,11 +516,27 @@ async function addCollectionPoint(CPData,prid){
       cp = await createCollectionPoint(CPData);
     }
     if(cp){
-      // console.log("THE COLLECTIONS POINT ID is "+ cp._id+"END THE CP IS "+cp)
       await addCollectionPointToProject(cp, prid);
     }
-    // await connect();
-    // await editProjectToUser(projectId,userId);
+  }catch (err) {
+    console.error('Error creating project', err.message);
+  } finally {
+    // disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
+}
+
+async function addDistributionPoint(DPData,prid){
+  try{
+    var cp;
+    if(!checkEmptyPoint(DPData)){
+      dp = await createDistributionPoint(DPData);
+    }
+    if(dp){
+      console.log("DP ID IS "+dp)
+      await addDistributionPointToProject(dp, prid);
+    }
   }catch (err) {
     console.error('Error creating project', err.message);
   } finally {
@@ -508,4 +547,4 @@ async function addCollectionPoint(CPData,prid){
 }
 
 
-module.exports = {addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+module.exports = {addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

@@ -217,8 +217,6 @@ app.post('/new-project', async (req,res)=>{
         });
     }
 
-
-
     var distributionPoint = {
     name: dName,
     description: dDescription,
@@ -285,10 +283,19 @@ app.get('/add-collection-point', function(req,res){
     res.redirect('/add-point')
 })
 
+app.get('/add-distribution-point', function(req,res){
+    req.session.projectId = req.query.prid;
+    req.session.type = 'D';
+    res.redirect('/add-point')
+})
+
 app.get('/add-point',async function(req,res){
     const allItems = await db.getAllCategoriesAndItems();
     if(req.session.type=='C'){
-        res.render('addCollectionPoint',{type:req.session.type,projectId:req.session.projectId,items:allItems});
+        res.render('addCollectionPoint',{projectId:req.session.projectId,items:allItems});
+    }
+    else if(req.session.type=='D'){
+        res.render('addDistributionPoint',{projectId:req.session.projectId,items:allItems});
     }
 })
 
@@ -316,6 +323,39 @@ app.post("/add-collection-point", async function(req,res){
     }
     try {
         await db.addCollectionPoint(collectionPoint,req.session.projectId);
+        res.redirect('/projects');
+    }catch (err) {
+        console.error('Error creating project:', err);
+        res.status(500).send('Internal server error');
+    }
+})
+
+app.post("/add-distribution-point", async function(req,res){
+    var distributionItems = [];
+    var dName = "";
+    if(req.body.distributionName){
+      dName = req.body.distributionName;
+    }
+    var dDescription = "";
+    if(req.body.distributionDescription){
+      dDescription = req.body.distributionDescription;
+    }
+
+    if (req.body.distribution) {
+    distributionItems = req.body.distribution.map(value => {
+        const item = JSON.parse(value);
+        return { itemId: item.id, name: item.name };
+        });
+    }
+
+    var distributionPoint = {
+    name: dName,
+    description: dDescription,
+    address: createDLocation(req),
+    items: distributionItems
+    }
+    try {
+        await db.addDistributionPoint(distributionPoint,req.session.projectId);
         res.redirect('/projects');
     }catch (err) {
         console.error('Error creating project:', err);

@@ -13,34 +13,34 @@
                 <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
                 <li class="breadcrumb-item" aria-current="page"><a href="/projects">Projects</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                        Add Collection Point
+                        Add Distribution Point
                 </li>
             </ol>
         </nav>
         <div class="content-title">
-                ADD COLLECTION POINT
+                ADD DISTRIBUTION POINT
         </div>
         <div class="projects-container add-point-container container">
-          <form action="/add-collection-point" method="post">
-                    <input type="text" name="collectionName" placeholder="Collection's Point Name" />
-                    <textarea maxlength="300" type="text" name="collectionDescription" placeholder="Description (general description and open hours)" ></textarea>
+          <form action="/add-distribution-point" method="post">
+                    <input type="text" name="distributionName" placeholder="Distribution's Point Name" />
+                    <textarea maxlength="300" type="text" name="distributionDescription" placeholder="Description (general description and open hours)" ></textarea>
                     <div class="location-inputs">
-                      <div class="location-iputs-title">Collection point address</div>
+                      <div class="location-iputs-title">Distribution point address</div>
                       <div class="row">
                         <div class="col-6">
-                          <input type="text" name="collectionAddress" placeholder="Address"/>
+                          <input type="text" name="distributionAddress" placeholder="Address"/>
                         </div>
                         <div class="col-4">
-                          <input type="text" name="collectionCity" placeholder="City"/>
+                          <input type="text" name="distributionCity" placeholder="City"/>
                         </div>
                         <div class="col-4">
-                          <input type="text" name="collectionPostalCode" placeholder="Postal Code"/>
+                          <input type="text" name="distributionPostalCode" placeholder="Postal Code"/>
                         </div>
                         <div class="col">
-                          <input type="text" name="collectionArea" placeholder="Area/Region"/>
+                          <input type="text" name="distributionArea" placeholder="Area/Region"/>
                         </div>
                         <div class="col">
-                          <input type="text" name="collectionCountry" placeholder="Country"/>
+                          <input type="text" name="distibutionCountry" placeholder="Country"/>
                         </div>
                       </div>
                     </div>
@@ -52,7 +52,7 @@
                           <% for (let item of category.items) { %>
 
                             <div class="form-check">
-                              <input class="form-check-input checkbox-item" type="checkbox" name="collection[]" value='{"id": "<%= item.id %>", "name": "<%= item.name %>"}' id="i-<%= item.id %>">
+                              <input class="form-check-input checkbox-item" type="checkbox" name="distribution[]" value='{"id": "<%= item.id %>", "name": "<%= item.name %>"}' id="i-<%= item.id %>">
                               <label class="form-check-label" for="i-<%= item.id %>">
                                 <%= item.name %>
                               </label>
