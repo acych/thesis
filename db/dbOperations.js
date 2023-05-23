@@ -498,6 +498,7 @@ async function getSelectedItems(type, pointId) {
       console.log('Collection point not found');
     }
   } else if (type === 'D') {
+    await mongoose.connect(uri);
     const distributionPoint = await DistributionPointModel.findById(pointId);
     if (distributionPoint) {
       console.log('Items:', distributionPoint.items);
@@ -547,6 +548,38 @@ async function closeCollectionPoint(projectId){
   
 }
 
+async function closeDistributionPoint(projectId){
+
+  let distributionPointId;
+  await mongoose.connect(uri);
+
+  await ProjectModel.findById(projectId)
+    .then(project => {
+      if (project) {
+        distributionPointId = project.distributionPoint;
+  
+        project.distributionPoint = null;
+        return project.save();
+      } else {
+        throw new Error('Project not found');
+      }
+    })
+    .then(updatedProject => {
+      console.log('Project updated:', updatedProject);
+  
+      return DistributionPointModel.findByIdAndDelete(distributionPointId);
+    })
+    .then(deletedDistributionPoint => {
+      if (deletedDistributionPoint) {
+        console.log('Distribution point deleted:', deletedDistributionPoint);
+      } else {
+        console.log('Distribution point not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
 
 async function addDistributionPointToProject(distributionPointId, prid) {
   try {
@@ -609,4 +642,4 @@ async function addDistributionPoint(DPData,prid){
 }
 
 
-module.exports = {closeCollectionPoint, getSelectedItems, addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+module.exports = {closeDistributionPoint, closeCollectionPoint, getSelectedItems, addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

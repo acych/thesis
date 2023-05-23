@@ -63,7 +63,7 @@
                                         <li><%= item.name %></li>
                                     <% } %>
                                 </ul>
-                                <a class="add-point" href="/edit-distribution-point/?prid=<%= project._id %>&pointId=<%=project.distributionPoint._id%>">EDIT DISTRIBUTION POINT</a>
+                                <a class="add-point" href="/edit-distribution-point/?prid=<%= project._id %>&pointId=<%=project.distributionPoint._id%>&description=<%=project.distributionPoint.description%>&name=<%=project.distributionPoint.name%>&address=<%=project.distributionPoint.address%>">EDIT DISTRIBUTION POINT</a>
                             <%} else { %>
                                 <a class="add-point" href="/add-distribution-point/?prid=<%= project._id %>">ADD DISTRIBUTION POINT</a>
                             <%} %>

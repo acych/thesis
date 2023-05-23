@@ -374,31 +374,33 @@ app.get('/edit-collection-point', function(req,res){
 })
 app.get('/edit-distribution-point', function(req,res){
     req.session.projectId = req.query.prid;
-    req.session.type = 'C';
     req.session.pointId = req.query.pointId;
+    req.session.type = 'D';
+    req.session.name = req.query.name;
+    req.session.description = req.query.description;
+    req.session.address = req.query.address;
     res.redirect('/edit-point');
 })
 
 app.get('/edit-point',async function(req,res){
-    console.log("THE PROJECT ID IS"+req.query.prid);
-
     const allItems = await db.getAllCategoriesAndItems();
-    const selectedItems = await db.getSelectedItems(req.session.type,req.session.pointId);
+   const selectedItems = await db.getSelectedItems(req.session.type,req.session.pointId);
     if (req.session.type=='C'){
-        res.render('editCollectionPoint',{pointId:req.session.pointId,projectId:req.session.projectId,items:allItems,selectedItems:selectedItems,name:req.session.name,description:req.session.description,address:req.session.address})
+        res.render('editCollectionPoint',{projectId:req.session.projectId,items:allItems,selectedItems:selectedItems,name:req.session.name,description:req.session.description,address:req.session.address})
     }
     else if (req.session.type=='D'){
-        res.render('editDistributionPoint',{projectId:req.session.prId,items:allItems,selectedItems:selectedItems})
+       res.render('editDistributionPoint',{projectId:req.session.projectId,items:allItems,selectedItems:selectedItems,name:req.session.name,description:req.session.description,address:req.session.address})
     }
 })
 
 app.get('/close-collection-point', async function(req, res) {
-
-    console.log()
     await db.closeCollectionPoint(req.query.prId);
     res.redirect('/projects');
-  });  
-
+});  
+app.get('/close-distribution-point', async function(req, res) {
+    await db.closeDistributionPoint(req.query.prId);
+    res.redirect('/projects');
+});  
 app.listen(4000, () =>{
     console.log('Server started listening on port 4000');
 })
