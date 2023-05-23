@@ -105,7 +105,6 @@ const CollectionPointModel = mongoose.model('CollectionPoint', collectionPointSc
 const DistributionPointModel = mongoose.model('DistributionPoint', distributionPointSchema);
 const ProjectModel = mongoose.model('Project', projectSchema);
 const Category = mongoose.model('Category', categorySchema);
-// const User = mongoose.model('User', userSchema);
 
 
 
@@ -486,6 +485,69 @@ async function addCollectionPointToProject(collectionPointId, prid) {
   }
 }
 
+async function getSelectedItems(type, pointId) {
+  let items = [];
+
+  if (type === 'C') {
+    await mongoose.connect(uri);
+    const collectionPoint = await CollectionPointModel.findById(pointId);
+    if (collectionPoint) {
+      console.log('Items:', collectionPoint.items);
+      items = collectionPoint.items;
+    } else {
+      console.log('Collection point not found');
+    }
+  } else if (type === 'D') {
+    const distributionPoint = await DistributionPointModel.findById(pointId);
+    if (distributionPoint) {
+      console.log('Items:', distributionPoint.items);
+      items = distributionPoint.items;
+    } else {
+      console.log('Distribution point not found');
+    }
+  }
+
+  return items;
+}
+
+async function closeCollectionPoint(projectId){
+
+  let collectionPointId; // Variable to store the ID of the collection point
+  await mongoose.connect(uri);
+
+  await ProjectModel.findById(projectId)
+    .then(project => {
+      if (project) {
+        // Store the collectionPoint ID
+        collectionPointId = project.collectionPoint;
+  
+        // Update the project's collectionPoint to null
+        project.collectionPoint = null;
+        return project.save();
+      } else {
+        throw new Error('Project not found');
+      }
+    })
+    .then(updatedProject => {
+      console.log('Project updated:', updatedProject);
+  
+      // Delete the collectionPoint from CollectionPointModel
+      return CollectionPointModel.findByIdAndDelete(collectionPointId);
+    })
+    .then(deletedCollectionPoint => {
+      if (deletedCollectionPoint) {
+        console.log('Collection point deleted:', deletedCollectionPoint);
+      } else {
+        console.log('Collection point not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  
+}
+
+
 async function addDistributionPointToProject(distributionPointId, prid) {
   try {
     await mongoose.connect(uri);
@@ -547,4 +609,4 @@ async function addDistributionPoint(DPData,prid){
 }
 
 
-module.exports = {addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+module.exports = {closeCollectionPoint, getSelectedItems, addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

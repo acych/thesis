@@ -41,7 +41,7 @@
                                         <li><%= item.name %></li>
                                     <% } %>
                                 </ul>
-                                <a class="add-point" href="/edit-collection-point/?prid=<%= project._id %>&cid=<%=project.collectionPoint._id%>">EDIT COLLECTION POINT</a>
+                                <a class="add-point" href="/edit-collection-point/?prid=<%= project._id %>&pointId=<%=project.collectionPoint._id%>&description=<%=project.collectionPoint.description%>&name=<%=project.collectionPoint.name%>&address=<%=project.collectionPoint.address%>">EDIT COLLECTION POINT</a>
                              <%} else { %>
                                 <a class="add-point" href="/add-collection-point/?prid=<%= project._id %>">ADD COLLECTION POINT</a>
                             <%} %>
@@ -63,7 +63,7 @@
                                         <li><%= item.name %></li>
                                     <% } %>
                                 </ul>
-                                <a class="add-point" href="/edit-distribution-point/?prid=<%= project._id %>&did=<%=project.distributionPoint._id%>">EDIT DISTRIBUTION POINT</a>
+                                <a class="add-point" href="/edit-distribution-point/?prid=<%= project._id %>&pointId=<%=project.distributionPoint._id%>">EDIT DISTRIBUTION POINT</a>
                             <%} else { %>
                                 <a class="add-point" href="/add-distribution-point/?prid=<%= project._id %>">ADD DISTRIBUTION POINT</a>
                             <%} %>

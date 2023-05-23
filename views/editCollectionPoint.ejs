@@ -13,46 +13,61 @@
                 <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
                 <li class="breadcrumb-item" aria-current="page"><a href="/projects">Projects</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                        Add Collection Point
+                    Edit Collection Point
                 </li>
             </ol>
         </nav>
         <div class="content-title">
-                ADD COLLECTION POINT
+            EDIT COLLECTION POINT
         </div>
         <div class="projects-container add-point-container container">
-          <form action="/add-collection-point" method="post">
-                    <input type="text" name="collectionName" placeholder="Collection's Point Name" />
-                    <textarea maxlength="300" type="text" name="collectionDescription" placeholder="Description (general description and open hours)" ></textarea>
+            <a href="/close-collection-point?prId=<%=projectId%>">CLOSE COLLECTION POINT</a>
+
+          <form action="/edit-collection-point" method="post">
+                    <input type="text" name="collectionName" placeholder="Collection's Point Name" value="<%=name%>" />
+                    <textarea maxlength="300" type="text" name="collectionDescription" placeholder="Description (general description and open hours)"><%=description%></textarea>
                     <div class="location-inputs">
                       <div class="location-iputs-title">Collection point address</div>
+                      <%
+                      const addressString = "Address, Athens, 12345, Attiki, Greece";
+                      const [add, city, postCode, area, country] = addressString.split(",").map(element => element.trim());
+                      %>
                       <div class="row">
                         <div class="col-6">
-                          <input type="text" name="collectionAddress" placeholder="Address"/>
+                          <input type="text" name="collectionAddress" placeholder="Address" value="<%=add%>"/>
                         </div>
                         <div class="col-4">
-                          <input type="text" name="collectionCity" placeholder="City"/>
+                          <input type="text" name="collectionCity" placeholder="City" value="<%=city%>"/>
                         </div>
                         <div class="col-4">
-                          <input type="text" name="collectionPostalCode" placeholder="Postal Code"/>
+                          <input type="text" name="collectionPostalCode" placeholder="Postal Code" value="<%=postCode%>"/>
                         </div>
                         <div class="col">
-                          <input type="text" name="collectionArea" placeholder="Area/Region"/>
+                          <input type="text" name="collectionArea" placeholder="Area/Region" value="<%=area%>"/>
                         </div>
                         <div class="col">
-                          <input type="text" name="collectionCountry" placeholder="Country"/>
+                          <input type="text" name="collectionCountry" placeholder="Country" value="<%=country%>"/>
                         </div>
                       </div>
                     </div>
             <% for (let category of items) { %>
                 <div class="accordion accordion-flush accordion-category">
                     <div class="accordion-item">
-                      <button data-bs-toggle="collapse" data-bs-target="#id-<%= category.id %>" aria-controls="id-<%= category.id %>" aria-expanded="false" class="accordion-button collapsed" type="button">Category: <%= category.name %></button>
+                      <button data-bs-toggle="collapse" data-bs-target="#id-<%= category.id %>" aria-controls="id-<%= category.id %> aria-expanded="false" class="accordion-button collapsed" type="button">Category: <%= category.name %></button>
                       <div id="id-<%= category.id %>" class="accordion-collapse collapse collapsed check-elements">
                           <% for (let item of category.items) { %>
 
                             <div class="form-check">
-                              <input class="form-check-input checkbox-item" type="checkbox" name="collection[]" value='{"id": "<%= item.id %>", "name": "<%= item.name %>"}' id="i-<%= item.id %>">
+                                
+
+                                    <% var isSelected=false; %>
+                                    <% for (let sitem of selectedItems) { %>
+                                    <%if(sitem.itemId.toString()==item.id.toString()){%>
+                                    <%isSelected = true%>
+                                    <% break %>
+                                    <%}%>
+                                    <%}%>
+                                    <input class="form-check-input checkbox-item" type="checkbox" name="collection[]" value='{"id": "<%= item.itemId %>", "name": "<%= item.name %>"}' id="i-<%= item.itemId %>" <%= isSelected ? "checked" : "" %>>
                               <label class="form-check-label" for="i-<%= item.id %>">
                                 <%= item.name %>
                               </label>

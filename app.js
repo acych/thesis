@@ -366,14 +366,38 @@ app.post("/add-distribution-point", async function(req,res){
 app.get('/edit-collection-point', function(req,res){
     req.session.projectId = req.query.prid;
     req.session.type = 'C';
-    req.session.pointId = null;
-    res.redirect('/edit-point')
+    req.session.pointId = req.query.pointId;
+    req.session.name = req.query.name;
+    req.session.description = req.query.description;
+    req.session.address = req.query.address;
+    res.redirect('/edit-point');
+})
+app.get('/edit-distribution-point', function(req,res){
+    req.session.projectId = req.query.prid;
+    req.session.type = 'C';
+    req.session.pointId = req.query.pointId;
+    res.redirect('/edit-point');
 })
 
 app.get('/edit-point',async function(req,res){
+    console.log("THE PROJECT ID IS"+req.query.prid);
+
     const allItems = await db.getAllCategoriesAndItems();
-    res.render('editPoint',{type:req.session.type,projectId:req.session.projectId,pointId:req.session.pointId,items:allItems});
+    const selectedItems = await db.getSelectedItems(req.session.type,req.session.pointId);
+    if (req.session.type=='C'){
+        res.render('editCollectionPoint',{pointId:req.session.pointId,projectId:req.session.projectId,items:allItems,selectedItems:selectedItems,name:req.session.name,description:req.session.description,address:req.session.address})
+    }
+    else if (req.session.type=='D'){
+        res.render('editDistributionPoint',{projectId:req.session.prId,items:allItems,selectedItems:selectedItems})
+    }
 })
+
+app.get('/close-collection-point', async function(req, res) {
+
+    console.log()
+    await db.closeCollectionPoint(req.query.prId);
+    res.redirect('/projects');
+  });  
 
 app.listen(4000, () =>{
     console.log('Server started listening on port 4000');
