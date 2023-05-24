@@ -6,9 +6,6 @@ const { isObjectIdOrHexString } = require('mongoose');
 
 const app = express();
 
-// db.createCollectionPoint('name','description','location',['food','clothes'])
-// db.createUser({ name: 'Foo',email:'test1234@test.com',password:'1234567890',address:'address1',tax_id:123456709, city:'city',country:'Country', postal_code:12345, phone:1234560890, tax_id:123956789, projects:[] });
-
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
@@ -141,11 +138,11 @@ function createDLocation(req){
     if(req.body.distributionAddress){
         location+= req.body.distributionAddress;
     }
-    if(req.body.distibutionCity){
+    if(req.body.distributionCity){
         if(location!=""){
             location+=", ";
         }
-        location+= req.body.distibutionCity;
+        location+= req.body.distributionCity;
     }
     if(req.body.distributionPostalCode){
         if(location!=""){
@@ -159,11 +156,11 @@ function createDLocation(req){
         }
         location+=req.body.distributionArea;
     }
-    if(req.body.distributionCountry){
+    if(req.body.distibutionCountry){
         if(location!=""){
             location+=", ";
         }
-        location+=req.body.distributionCountry;
+        location+=req.body.distibutionCountry;
     }
     return location;
 }
@@ -372,6 +369,7 @@ app.get('/edit-collection-point', function(req,res){
     req.session.address = req.query.address;
     res.redirect('/edit-point');
 })
+
 app.get('/edit-distribution-point', function(req,res){
     req.session.projectId = req.query.prid;
     req.session.pointId = req.query.pointId;
@@ -391,6 +389,70 @@ app.get('/edit-point',async function(req,res){
     else if (req.session.type=='D'){
        res.render('editDistributionPoint',{projectId:req.session.projectId,items:allItems,selectedItems:selectedItems,name:req.session.name,description:req.session.description,address:req.session.address})
     }
+})
+
+app.post('/edit-distribution-point', async function(req,res){
+    var projectId = req.body.projectId;
+   await db.closeDistributionPoint(projectId);
+
+   var distributionItems = [];
+   var dName = "";
+   if(req.body.distributionName){
+     dName = req.body.distributionName;
+   }
+   var dDescription = "";
+   if(req.body.distributionDescription){
+     dDescription = req.body.distributionDescription;
+   }
+
+   if (req.body.distribution) {
+   distributionItems = req.body.distribution.map(value => {
+       const item = JSON.parse(value);
+       return { itemId: item.id, name: item.name };
+       });
+   }
+
+   var distributionPoint = {
+   name: dName,
+   description: dDescription,
+   address: createDLocation(req),
+   items: distributionItems
+   }
+   try {
+       await db.addDistributionPoint(distributionPoint,req.session.projectId);
+       res.redirect('/projects');
+   }catch (err) {
+       console.error('Error creating project:', err);
+       res.status(500).send('Internal server error');
+   }
+})
+
+app.post('/edit-collection-point', async function(req,res){
+    var projectId = req.body.projectId;
+   await db.closeCollectionPoint(projectId);
+    var collectionItems = [];
+    if (req.body.collection) {
+        collectionItems = req.body.collection.map(value => {
+            const item = JSON.parse(value);
+            return { itemId: item.id, name: item.name };
+          });
+      }
+      var cName = "";
+      if(req.body.collectionName){
+        cName = req.body.collectionName;
+      }
+      var cDescription = "";
+      if(req.body.collectionDescription){
+        cDescription = req.body.collectionDescription;
+      }
+    var collectionPoint = {
+        name: cName,
+        description: cDescription,
+        address: createCLocation(req),
+        items: collectionItems
+    }
+       await db.addCollectionPoint(collectionPoint,projectId);
+       res.redirect('/projects');
 })
 
 app.get('/close-collection-point', async function(req, res) {
