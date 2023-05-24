@@ -75,6 +75,9 @@ html body [data-ca3_iconfont="ETmodules"]::before {
     content: attr(data-ca3_icon);
 }
 
+.arrow-container{
+    position: relative;
+}
 .ca3-scroll-down-arrow {
     background-image: var(--chevron-down);
 	background-size: contain;
@@ -89,7 +92,7 @@ html body [data-ca3_iconfont="ETmodules"]::before {
 	line-height: 60px;
 	position: absolute;
 	left: 50%;
-    bottom: 200px;
+    bottom: 0;
     color: #FFF;
 	text-align: center;
 	font-size: 70px;
