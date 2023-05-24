@@ -641,5 +641,27 @@ async function addDistributionPoint(DPData,prid){
   }
 }
 
+async function deleteProject(projectId,userId){
+  try{
+    await mongoose.connect(uri);
 
-module.exports = {closeDistributionPoint, closeCollectionPoint, getSelectedItems, addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };
+    // Delete the project
+    await ProjectModel.findByIdAndDelete(projectId);
+    console.log("Deleted project with id "+projectId)
+    // Remove the project ID from the user's projects array
+    await UserModel.findByIdAndUpdate(
+      userId,
+      { $pull: { projects: projectId } },
+      { new: true }
+    );
+  }catch(err){
+    console.error('Error deleting project', err.message);
+  }finally {
+    // disconnect from the database
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB Atlas');
+  }
+
+}
+
+module.exports = {deleteProject, closeDistributionPoint, closeCollectionPoint, getSelectedItems, addDistributionPoint, addCollectionPoint, getCollectionPoints, getDistributionPoints, getAllUserProjects, createProject, getAllCategoriesAndItems, connect, createUser, loginUser, registerUser };

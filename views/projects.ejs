@@ -18,6 +18,9 @@
 
             <% for (let project of projects) { %>
                 <div class="project">
+                    <a href="/delete-project?prId=<%= project._id %>" class="delete-project" >
+                        <img src="./img/delete.png" />
+                    </a>
                     <div class="project-title">
                         <%= project.name %>
                     </div>

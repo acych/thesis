@@ -273,11 +273,18 @@ app.get('/offer',async function(req,res){
     res.render('points',{title:'Offer',points:UCPoints,type:'C'});
 })
 
-
-app.get('/add-collection-point', function(req,res){
+app.get('/add-collection-point', async function(req,res){
     req.session.projectId = req.query.prid;
     req.session.type = 'C';
     res.redirect('/add-point')
+})
+
+app.get('/delete-project', async function(req,res){
+    projectId = req.query.prId;
+    await db.closeDistributionPoint(projectId);
+    await db.closeCollectionPoint(projectId);
+    await db.deleteProject(projectId,req.session.user);
+    res.redirect('/projects');
 })
 
 app.get('/add-distribution-point', function(req,res){
