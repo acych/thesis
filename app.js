@@ -84,8 +84,13 @@ try {
 });
   
 app.get('/logout',(req,res)=>{
-    req.session.user = null,
-    res.redirect('/');
+    req.session.destroy(function(err) {
+        if (err) {
+          console.error('Error destroying session:', err);
+        } else {
+          res.redirect('/');
+        }
+      });
 })
 
 app.get('/projects',async (req,res)=>{

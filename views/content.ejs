@@ -5,10 +5,12 @@
         </ol>
     </nav>
     <div class="content-title"><%= variables.title %></div>
+    <%if (variables.user){%>
+        <a class="logout-button" href="/logout">Log Out</a>
+    <%}%>
+
     <div class="ease-buttons container">
-        <%if (variables.user){%>
-            <a href="/logout">Log Out</a>
-        <%}%>
+
         <div class="row">
             <div class="col-sm-6 ease-button-container">
                <a class="ease-button" href=<%= variables.option1Next %>>

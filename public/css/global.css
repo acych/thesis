@@ -36,12 +36,28 @@ a,a:hover{
     color: var(--light-red);
 }
 
-/* content title UI */
 .content-title{
     text-align: center;
     background-color: var(--dark-yellow);
     font-size: 20px;
     padding: 10px 0;
+}
+
+.logout-button{
+    border: 1px solid var(--dark-red);
+    float: right;
+    margin-right: 100px;
+    border-radius: 6px;
+    background-color: var(--dark-yellow);
+    padding: 3px 8px;
+    text-align: right;
+    margin-top: 50px;
+    font-weight: bolder;
+}
+
+.logout-button:hover{
+    opacity: 0.8;
+    text-decoration: none;
 }
 
 .bold-text{

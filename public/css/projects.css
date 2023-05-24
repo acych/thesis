@@ -43,6 +43,37 @@
     padding: 50px 60px;
 }
 
+.add-point{
+    font-weight: bolder;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.close-point{
+    font-weight: bolder;
+    color: var(--dark-yellow);
+    background-color: var(--dark-red);
+    width: 100%;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -webkit-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+    -moz-box-shadow: -1px 3px 5px -1px rgba(0,0,0,0.45);
+}
+
+.close-point:hover{
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.add-point:hover{
+    opacity: 0.8;
+    text-decoration: none;
+}
+
 .project-title{
     margin-bottom: 40px;        
     text-align: center;

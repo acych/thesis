@@ -20,8 +20,10 @@
         <div class="content-title">
             EDIT COLLECTION POINT
         </div>
+        <a class="logout-button" href="/logout">Log Out</a>
+
         <div class="projects-container add-point-container container">
-            <a href="/close-collection-point?prId=<%=projectId%>">CLOSE COLLECTION POINT</a>
+            <a href="/close-collection-point?prId=<%=projectId%>" class="close-point">CLOSE COLLECTION POINT</a>
 
           <form action="/edit-collection-point" method="post">
                     <input class="d-none" type="text" name="projectId" value="<%=projectId%>">

@@ -20,8 +20,10 @@
         <div class="content-title">
             EDIT DISTRIBUTION POINT
         </div>
+        <a class="logout-button" href="/logout">Log Out</a>
+
         <div class="projects-container add-point-container container">
-            <a href="/close-distribution-point?prId=<%=projectId%>">CLOSE DISTRIBUTION POINT</a>
+            <a href="/close-distribution-point?prId=<%=projectId%>" class="close-point">CLOSE DISTRIBUTION POINT</a>
 
           <form action="/edit-distribution-point" method="post">
                     <input class="d-none" type="text" name="projectId" value="<%=projectId%>">
