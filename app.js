@@ -475,6 +475,6 @@ app.get('/close-distribution-point', async function(req, res) {
     await db.closeDistributionPoint(req.query.prId);
     res.redirect('/projects');
 });  
-app.listen(4000, () =>{
+app.listen(process.env.PORT || 4000, () =>{
     console.log('Server started listening on port 4000');
 })
