@@ -19,3 +19,11 @@
 .point:nth-child(even){
     background-color: var(--medium-yellow);
 }
+
+@media (min-width: 768px){
+    .point{
+        padding: 40px 100px;
+        font-size: 26px;
+        width: 100%;
+    }
+}

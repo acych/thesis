@@ -35,3 +35,20 @@
 .ease-text{
     margin-top: 10px;
 }
+
+@media (min-width: 768px){
+    .ease-button{
+        width: 100%;
+        margin: 20px auto;
+        height: 185px;
+    }
+    .choices-image{
+        height: 80px;
+    }
+    .ease-text{
+        font-size: 25px;
+    }
+    .ease-buttons {
+        margin-top: 125px;
+    }
+}

@@ -173,3 +173,22 @@ input[type=file]:focus, input[type=checkbox]:focus, input[type=radio]:focus{
     color: var(--light-red);
     padding-left: 10px;
 }
+
+@media (min-width: 768px){
+    input,textarea{
+        font-size: 23px;
+    }
+    .cancel-button, .submit-button{
+        font-size: 23px;
+    }
+    .location-iputs-title{
+        font-size: 20px;
+    }
+    .accordion-flush .accordion-item .accordion-button, .accordion-flush .accordion-item .accordion-button.collapsed{
+        font-size: 22px;
+    }
+    .accordion-collapse.show{
+        padding-left: 30px;
+        padding-bottom: 10px;
+    }
+}

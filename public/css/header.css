@@ -49,3 +49,24 @@
     height: 13px;
     margin: 5px;
 }
+
+@media (min-width: 768px){
+    .header-logo{
+        margin: 100px auto;
+    }
+    #easeCarousel{
+        text-align: center;
+    }
+    .header{
+        margin-bottom: 100px;
+    }
+    .logo-text{
+        font-size: 36px;
+    }
+    .carousel-caption h3{
+        font-size: 36px;
+    }
+    .carousel-caption p{
+        font-size: 25px;
+    }
+}

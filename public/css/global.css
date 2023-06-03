@@ -122,3 +122,17 @@ html body [data-ca3_iconfont="ETmodules"]::before {
   50%  { opacity: 1;  }
   100% { transform:translate(0,20px); opacity: 0; }
 }
+
+@media (min-width: 768px){
+    .breadcrumb{
+        font-size: 30px;
+        padding: 10px 0;
+    }
+    .content-title{
+        font-size: 30px;
+    }
+    .logout-button{
+        font-size: 18px;
+        padding: 6px 12px;
+    }
+}
