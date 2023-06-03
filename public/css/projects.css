@@ -116,7 +116,7 @@
     background-color: var(--dark-yellow);
 }
 
-@media (min-width: 768px){
+@media only screen and (max-width: 768px){
     .project-title{
         font-size: 27px;
     }

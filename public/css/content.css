@@ -36,7 +36,7 @@
     margin-top: 10px;
 }
 
-@media (min-width: 768px){
+@media only screen and (max-width: 768px){
     .ease-button{
         width: 100%;
         margin: 20px auto;
