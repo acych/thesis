@@ -1,7 +1,12 @@
 <div class="content">                
     <nav aria-label="breadcrumb" class="bc-nav">
         <ol class="breadcrumb container">
-            <li class="breadcrumb-item active" aria-current="page">Home</li>
+            <%if (variables.breadcrumb){ %>
+                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active"><%= variables.breadcrumb %></li>
+            <%}else{%>
+                <li class="breadcrumb-item active" aria-current="page">Home</li>
+            <%}%>
         </ol>
     </nav>
     <div class="content-title"><%= variables.title %></div>

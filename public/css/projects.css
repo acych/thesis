@@ -118,26 +118,38 @@
 
 @media only screen and (max-width: 768px){
     .project-title{
-        font-size: 27px;
+        font-size: 21px;
+        margin-bottom: 20px;
     }
     .project{
-        font-size: 20px;
+        font-size: 18px;
+        padding: 50px 30px 20px;
     }
     .point-name{
-        font-size: 22px;
+        font-size: 19px;
+        text-align: left;
     }
     .add-point{
-        text-align: center;
+        font-size: 15px;
         border-radius: 7px;
-    }
-    .delete-project img{
-        height: 36px;
-        width: 30px;
+        margin-bottom: 30px;
     }
     .delete-project{
         font-size: 20px;
     }
     .close-point{
-        font-size: 21px;
+        font-size: 18px;
+    }
+    .add-point-container{
+        width:90%;
+    }
+    .add-point-container input, .add-point-container textarea{
+        width: 100%;
+    }
+    .add-point-container input.form-check-input{
+        width: 20px;
+    }
+    .location-inputs input{
+        margin-bottom: 0;
     }
 }

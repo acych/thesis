@@ -36,19 +36,19 @@
                       const [add, city, postCode, area, country] = address.split(",").map(element => element.trim());
                       %>
                       <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6 col-sm-12">
                           <input type="text" name="collectionAddress" placeholder="Address" value="<%=add%>"/>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                           <input type="text" name="collectionCity" placeholder="City" value="<%=city%>"/>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                           <input type="text" name="collectionPostalCode" placeholder="Postal Code" value="<%=postCode%>"/>
                         </div>
-                        <div class="col">
+                        <div class="col-md-4 col-sm-12">
                           <input type="text" name="collectionArea" placeholder="Area/Region" value="<%=area%>"/>
                         </div>
-                        <div class="col">
+                        <div class="col-md-4 col-sm-12">
                           <input type="text" name="collectionCountry" placeholder="Country" value="<%=country%>"/>
                         </div>
                       </div>
@@ -56,7 +56,7 @@
                     <% for (let category of items) { %>
                         <div class="accordion accordion-flush accordion-category">
                             <div class="accordion-item">
-                              <button data-bs-toggle="collapse" data-bs-target="#id-<%= category.id %>" aria-controls="id-<%= category.id %>" aria-expanded="false" class="accordion-button" type="button">Category: <%= category.name %></button>
+                              <button data-bs-toggle="collapse" data-bs-target="#id-<%= category.id %>" aria-controls="id-<%= category.id %>" aria-expanded="false" class="accordion-button" type="button"><%= category.name %></button>
                               <div id="id-<%= category.id %>" class="accordion-collapse collapse collapsed check-elements collapse show">
                                   <% for (let item of category.items) { %>
                                     <% var isSelected=false; %>

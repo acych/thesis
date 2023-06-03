@@ -52,21 +52,24 @@
 
 @media only screen and (max-width: 768px){
     .header-logo{
-        margin: 100px auto;
+        margin: 30px auto 5px;
+    }
+    .header-logo img{
+        width: 30%;
+    }
+    .logo-text{
+        width: 90%;
+    }
+    .carousel-inner{
+        height: 200px;
+    }
+    .carousel-inner img{
+        height: 200px;
+    }
+    .carousel-caption{
+        bottom: -24px;
     }
     #easeCarousel{
         text-align: center;
-    }
-    .header{
-        margin-bottom: 100px;
-    }
-    .logo-text{
-        font-size: 36px;
-    }
-    .carousel-caption h3{
-        font-size: 36px;
-    }
-    .carousel-caption p{
-        font-size: 25px;
     }
 }

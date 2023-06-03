@@ -42,7 +42,8 @@ app.get('/individual', (req,res)=>{
         option2: 'OFFER',
         option2Next: '/offer',
         image2: './img/choices/offer.png',
-        user: req.session.user
+        user: req.session.user,
+        breadcrumb: 'Individual'
     }
     res.render('index',{variables:variables});
 })
